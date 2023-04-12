@@ -80,8 +80,8 @@ if (!userToken) {
 }
 
 fetchProfileStatCount(userId, "image"); //Posts count
-fetchProfileStatCount(userId, "like"); //Likes count
-fetchProfileStatCount(userId, "comment"); //Comments count
+// fetchProfileStatCount(userId, "like"); //Likes count
+// fetchProfileStatCount(userId, "comment"); //Comments count
 
 // Eventlistner to catch when file added
 dpInput.addEventListener("change", async (e) => {

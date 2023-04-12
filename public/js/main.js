@@ -47,6 +47,7 @@ const fetchProfileStatCount = async (userID, fetchRoute) => {
     (error) => console.log(error.message);
   }
   const result = await response.json();
+
   if (result) {
     document.querySelector(`.profile-stats #${fetchRoute}`).innerText =
       result.count;

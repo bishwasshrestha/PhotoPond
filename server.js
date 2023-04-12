@@ -5,7 +5,7 @@ import cors from "cors";
 import http from "http";
 import helmet from "helmet";
 import authRoutes from "./routes/authRoutes.js";
-// import imageRoutes from "./routes/imageRoutes.js";
+import imageRoutes from "./routes/imageRoutes.js";
 // import commentRoutes from "./routes/commentRoutes.js";
 // import likeRoutes from "./routes/likeRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -51,7 +51,7 @@ app.use(express.urlencoded({ extended: true }));
 //   });
 // }
 
-// app.use("/image", imageRoutes);
+app.use("/image", imageRoutes);
 app.use("/auth", authRoutes);
 // app.use("/comment", commentRoutes);
 // app.use("/like", likeRoutes);
