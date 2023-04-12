@@ -1,0 +1,143 @@
+.header {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  position: fixed;
+  width: 100%;
+  height: 40px;
+  left: 0;
+  z-index: 2;
+}
+
+/*----------------------------*\
+        Logo
+    \*----------------------------*/
+.header .logo {
+  font-family: "Tangerine";
+  font-size: 30px;
+  padding: 5px;
+  width: 130px;
+  font-weight: bolder;
+  text-align: center;
+  text-shadow: rgb(89, 0, 255) 1px 0 5px;
+}
+
+/*----------------------------*\
+        Search
+    \*----------------------------*/
+
+.header .search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header input[type="text"] {
+  border-radius: 5px;
+  border: 1px solid #693bd349;
+  color: white;
+  padding: 6px 10px;
+}
+.header .search-container button {
+  padding: 4px;
+  border-radius: 5px;
+  font-size: 15px;
+  color: white;
+  background-color: #693bd3d0;
+  border: 1px solid;
+}
+
+.header .search-container button:hover {
+  background-color: rgb(11, 79, 118);
+}
+/*----------------------------*\
+        User
+    \*----------------------------*/
+
+.header .signin a {
+  padding: 4px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 15px;
+  color: white;
+  background-color: #693bd3d0;
+}
+
+.signin a span {
+  padding: 2px;
+  margin: 2px;
+  z-index: 10;
+}
+.header .signin a:hover {
+  background-color: rgb(11, 79, 118);
+}
+
+.header a.active {
+  background-color: #2196f3;
+  color: white;
+}
+
+/*----------------------------*\
+        Upload Image
+    \*----------------------------*/
+
+.upload-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-form #fileInput {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+}
+
+.upload-form label {
+  display: block;
+  position: relative;
+  width: 150px;
+  height: 30px;
+  border-radius: 10px 0px 0px 10px;
+  background: linear-gradient(40deg, #ff6ec4, #7873f5);
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+}
+
+.upload-form button {
+  background: linear-gradient(40deg, #ff6ec4, #927832);
+  height: 33px;
+  margin-top: 1px;
+  border-radius: 0px 10px 10px 0px;
+  color: #fff;
+  font-weight: bold;
+}
+/*------------------------------------------------------------------
+    [ Responsive ]*/
+
+@media screen and (max-width: 920px) {
+  .header input[type="text"] {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 815px) {
+  .header input[type="text"] {
+    width: 250px;
+  }
+}
+
+@media screen and (max-width: 665px) {
+  .header .search-container {
+    visibility: hidden;
+  }
+  .header {
+    justify-content: center;
+  }
+}

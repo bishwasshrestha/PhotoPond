@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- ===============================================================================================-->
+    <link rel="icon" type="image/png" href="./images/panda.png" />
+    <!-- ===============================================================================================-->
+    <!-- <link
+      href="./modules/@fortawesome/fontawesome-free/css/all.min.css"
+      rel="stylesheet"
+    /> -->
+    <!-- ===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="./css/login.css" />
+    <!-- ===============================================================================================-->
+  </head>
+  <body>
+    <div class="limiter">
+      <div class="container-login100">
+        <div class="wrap-login100">
+          <div class="container-login100-pic">
+            <div class="login100-pic" data-tilt="">
+              <img src="./images/panda.png" alt="IMG" />
+            </div>
+          </div>
+
+          <!-- Start of signin form -->
+
+          <form class="login100-form" id="loginForm">
+            <span class="login100-form-title">Member Login</span>
+            <span class="login100-form-errorMessage"></span>
+            <div class="wrap-input100">
+              <input
+                class="input100"
+                id="signInEmail"
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+              />
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div class="wrap-input100">
+              <input
+                class="input100"
+                id="signInPassword"
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+              />
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div class="container-login100-form-btn">
+              <button class="login100-form-btn" type="submit">Login</button>
+            </div>
+            <div class="text-center">
+              <p>
+                Don't have an account? Sign up
+                <a id="create-account-link" class="txt2">
+                  here
+                  <i class="fas fa-long-arrow-alt-right" aria-hidden="true"></i>
+                </a>
+              </p>
+            </div>
+          </form>
+
+          <!-- End of signin form -->
+
+          <!-- Start of signup form -->
+
+          <form id="signUpForm" class="login100-form">
+            <span class="login100-form-title"> Be a Member </span>
+
+            <div class="wrap-input100">
+              <input
+                id="signUpUsername"
+                class="input100"
+                type="text"
+                name="username"
+                placeholder="Username"
+                minlength="3"
+                required
+              />
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fas fa-user" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div class="wrap-input100">
+              <input
+                id="signUpEmail"
+                class="input100"
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+              />
+
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div class="wrap-input100">
+              <input
+                id="signUpPassword"
+                class="input100"
+                type="password"
+                name="password"
+                placeholder="Password"
+                minlength="5"
+                required
+              />
+
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-lock-open" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div class="wrap-input100">
+              <input
+                id="confirmPassword"
+                class="input100"
+                type="password"
+                name="confirm_pass"
+                placeholder="Confirm Password"
+                required
+              />
+
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div class="container-login100-form-btn">
+              <button id="submit-btn" class="login100-form-btn" type="submit">
+                Register
+              </button>
+            </div>
+
+            <div class="text-center">
+              <p>
+                Have an account? Sign In
+                <a id="signin-link" class="txt2">
+                  here
+                  <i class="fas fa-long-arrow-alt-right" aria-hidden="true"></i>
+                </a>
+              </p>
+            </div>
+          </form>
+
+          <!-- End of signup form -->
+        </div>
+      </div>
+    </div>
+    <script src="js/auth.js"></script>
+  </body>
+</html>
