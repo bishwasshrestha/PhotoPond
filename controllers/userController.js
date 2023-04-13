@@ -25,6 +25,8 @@ const uploadProfile = async (req, res) => {
 };
 
 const updateUserData = async (req, res) => {
+ 
+
   if (!req.body.about) {
     req.body.about = "";
   }

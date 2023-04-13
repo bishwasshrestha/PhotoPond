@@ -6,9 +6,8 @@ import { populateImages, createPostCards } from "./index.js";
 const searchForm = document.getElementById("search-form");
 const searchInput = document.querySelector("#search-form input");
 
-searchInput.addEventListener("keyup", async (event) => {
-  event.preventDefault();
-
+const handleSearch = async (e) => {
+  const user = e.target.value;
   const requestOptions = {
     method: "GET",
     redirect: "follow",
@@ -16,9 +15,14 @@ searchInput.addEventListener("keyup", async (event) => {
 
   const query = searchInput.value;
 
-  const response = await myCustomFetch(`./user/?name=${query}`, requestOptions);
+  const response = await myCustomFetch(`./user/?name=${user}`, requestOptions);
 
   console.log("fetch result:-", response);
 
   createPostCards(response);
+};
+
+searchInput.addEventListener("change", (event) => {
+  event.preventDefault();
+  handleSearch(event);
 });

@@ -65,7 +65,7 @@ const postData = `<div class="gallery-item-info">
 //Populate each cards
 const createPostCards = (posts) => {
   document.querySelector(".gallery").innerHTML = "";
-  posts?.forEach((post, i) => {
+  posts.forEach((post, i) => {
     document.querySelector(".gallery").insertAdjacentHTML(
       "beforeend",
       // Each gallery div is assigned with unique id with index number 'image-index-${i}'
@@ -175,7 +175,7 @@ const createPostCards = (posts) => {
 
     const createComments = async (comments) => {
       postedComments.innerHTML = "";
-      const comments_count = comments.filter(
+      const comments_count = comments?.filter(
         (comment) => comment.image_id == post.image_id
       ).length;
       comments.forEach((comment) => {
@@ -276,30 +276,31 @@ const createPostCards = (posts) => {
     modalClickHandler(deleteModal);
 
     // When trash icon is pressed, DELETE a post/image
-    deleteModal
-      .getElementsByClassName("deletebtn")[0]
-      .addEventListener("click", async (event) => {
-        event.preventDefault();
 
-        const fetchOptions = {
-          method: "DELETE",
-          headers: {
-            Authorization: "Bearer " + userToken,
-          },
-        };
+    // deleteModal
+    //   .getElementsByClassName("deletebtn")
+    //   .addEventListener("click", async (event) => {
+    //     event.preventDefault();
 
-        const deleteRes = await myCustomFetch(
-          `./image/${post.image_id}`,
-          fetchOptions
-        );
-        if (deleteRes.status) {
-          populateImages();
-          fetchProfileStatCount(userId, "image");
-          // fetchProfileStatCount(userId, "like");
-          // fetchProfileStatCount(userId, "comment");
-          hideContent(deleteModal);
-        }
-      });
+    //     const fetchOptions = {
+    //       method: "DELETE",
+    //       headers: {
+    //         Authorization: "Bearer " + userToken,
+    //       },
+    //     };
+
+    //     const deleteRes = await myCustomFetch(
+    //       `./image/${post.image_id}`,
+    //       fetchOptions
+    //     );
+    //     if (deleteRes.status) {
+    //       populateImages();
+    //       fetchProfileStatCount(userId, "image");
+    //       fetchProfileStatCount(userId, "like");
+    //       fetchProfileStatCount(userId, "comment");
+    //       hideContent(deleteModal);
+    //     }
+    //   });
 
     //When page is loaded
     getComments(post.image_id); //Get all the comments
@@ -355,7 +356,6 @@ document
       },
       body: fd,
     };
-    // console.log("fetchOptions", fetchOptions);
 
     const result = await myCustomFetch("./image/", fetchOptions);
 
@@ -378,13 +378,14 @@ document
   });
 
 modalClickHandler(logoutModal);
-logoutModal
-  .getElementsByClassName("deletebtn")[0]
-  .addEventListener("click", (event) => {
-    event.preventDefault();
-    sessionStorage.clear();
-    location.reload();
-    hideContent(logoutModal);
-  });
+
+// logoutModal
+//   .getElementsByClassName("deletebtn")
+//   .addEventListener("click", (event) => {
+//     event.preventDefault();
+//     sessionStorage.clear();
+//     location.reload();
+//     hideContent(logoutModal);
+//   });
 
 export { populateImages, createPostCards };

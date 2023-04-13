@@ -50,7 +50,6 @@ const getUserWithUsername = async (username) => {
 };
 
 const uploadUserData = async (params) => {
-  console.log("upload user data", params);
   try {
     const [rows] = await promisePool.execute(
       "INSERT IGNORE INTO `user` (`username`, `email`, `password`) VALUES (?, ?, ?);",

@@ -80,7 +80,7 @@ img {
   justify-content: center;
   align-items: center;
   height: 150px;
-  width: 150px; 
+  width: 150px;
   border-radius: 50%;
   background-color: #03030327;
   background-size: cover;
@@ -267,6 +267,7 @@ img {
 
 #edit-profile-modal .modal-content {
   width: 40%; /* Could be more or less, depending on screen size */
+  z-index: 1;
 }
 
 /* Style the horizontal ruler */

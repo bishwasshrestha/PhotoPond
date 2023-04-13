@@ -12,21 +12,20 @@ import {
 } from "./main.js";
 import { populateImages } from "./index.js";
 
-// Edit profile form elements
-const editProfileBtn = document.getElementById("edit-profile");
-const editProfileForm = document.getElementById("editProfileForm");
-const editProfileUsername = document.getElementById("editProfileUsername");
-const editProfileEmail = document.getElementById("editProfileEmail");
-const editProfileAbout = document.getElementById("editProfileAbout");
-
 // Profile section elements
 const displayPicture = document.querySelector(".profile-image");
 const dpInput = document.getElementById("dpInput");
 const profileAbout = document.querySelector(".profile-bio .profile-bio-only");
 const profileUserName = document.querySelector(".profile-user-name");
 
-let editFormChanged = false;
+// Edit profile form elements
+const editProfileBtn = document.getElementById("edit_profile");
+const editProfileForm = document.getElementById("editProfileForm");
+const editProfileUsername = document.getElementById("editProfileUsername");
+const editProfileEmail = document.getElementById("editProfileEmail");
+const editProfileAbout = document.getElementById("editProfileAbout");
 
+let editFormChanged = false;
 const populateProfile = async (id) => {
   const fetchOptions = {
     method: "GET",
@@ -38,7 +37,7 @@ const populateProfile = async (id) => {
 
   const user = await myCustomFetch(`/user/${id}`, fetchOptions);
 
-  // console.log("This is user :-", user.username);
+  console.log("This is user :-", user.username);
   if (user.user_id) {
     // Check if user profile exits
     if (user.dp) {
@@ -68,7 +67,7 @@ const populateProfile = async (id) => {
 };
 
 // remove signin button if loggedin
-if (userToken) {
+if (sessionStorage.token) {
   showContent(document.querySelector(".profile"));
   hideContent(document.querySelector(".signin"));
   populateProfile(userId);
@@ -80,8 +79,8 @@ if (!userToken) {
 }
 
 fetchProfileStatCount(userId, "image"); //Posts count
-// fetchProfileStatCount(userId, "like"); //Likes count
-// fetchProfileStatCount(userId, "comment"); //Comments count
+fetchProfileStatCount(userId, "like"); //Likes count
+fetchProfileStatCount(userId, "comment"); //Comments count
 
 // Eventlistner to catch when file added
 dpInput.addEventListener("change", async (e) => {
@@ -119,6 +118,7 @@ dpInput.addEventListener("change", async (e) => {
 const editProfileModal = document.getElementById("edit-profile-modal");
 
 editProfileBtn.addEventListener("click", (event) => {
+  console.log("edit profile clicked!");
   editFormChanged = false; //Set data chaged to false
   editProfileModal.style.display = "block";
 });
@@ -127,15 +127,13 @@ modalClickHandler(editProfileModal);
 
 // Check if the input has changed
 editProfileForm.addEventListener("input", (event) => {
-  console.log("data chnaged");
   editFormChanged = true; //Set data changed
 });
 
 editProfileForm
-  .querySelector(".deletebtn")
+  .getElementsByClassName("deletebtn")
   .addEventListener("click", async (event) => {
     event.preventDefault();
-
     const urlencoded = new URLSearchParams();
     urlencoded.append("username", editProfileUsername.value);
     urlencoded.append("email", editProfileEmail.value);

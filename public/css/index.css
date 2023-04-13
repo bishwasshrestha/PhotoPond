@@ -24,36 +24,8 @@
 }
 
 /*----------------------------*\
-        Search
-    \*----------------------------*/
-
-.header .search-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.header input[type="text"] {
-  border-radius: 5px;
-  border: 1px solid #693bd349;
-  color: white;
-  padding: 6px 10px;
-}
-.header .search-container button {
-  padding: 4px;
-  border-radius: 5px;
-  font-size: 15px;
-  color: white;
-  background-color: #693bd3d0;
-  border: 1px solid;
-}
-
-.header .search-container button:hover {
-  background-color: rgb(11, 79, 118);
-}
-/*----------------------------*\
-        User
-    \*----------------------------*/
+            User
+        \*----------------------------*/
 
 .header .signin a {
   padding: 4px;
