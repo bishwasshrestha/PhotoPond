@@ -4,8 +4,8 @@ import * as model from "../models/imageModels.js";
 const getImagesList = async (req, res) => {
   const posts = await model.getAllImages();
   // Rest in Object Destructuring to get all the properties of image with image owner except owner password
-  const postsWithoutPW = posts.map(({ password, ...post }) => post);
-  res.json(postsWithoutPW);
+  const images = posts.map(({ password, ...post }) => post);
+  res.json(images);
 };
 
 const getImageWithID = async (req, res) => {
@@ -21,23 +21,22 @@ const getTotalPostsByUser = async (req, res) => {
 };
 
 const uploadImage = async (req, res) => {
-
   try {
     const data = [req.file.filename, req.body.ownerId];
-    const upload = await model.postImage(data);
+    await model.postImage(data);
     res.send({ status: "insert ok" });
   } catch (err) {
-    console.log("Error uploadImage:-", err);
+    console.log("Upload failed, Error:", err);
   }
 };
 
 const deletePost = async (req, res) => {
   try {
     const id = req.params.id;
-    const del = await model.deleteImage(id);
-    res.json({ status: "sucessfully delete" });
+    await model.deleteImage(id);
+    res.json({ status: "Sucessfully deleted" });
   } catch (err) {
-    console.log("Error deletePost:-", err);
+    console.log("Could not delete, Error:", err);
   }
 };
 

@@ -23,6 +23,27 @@
   text-shadow: rgb(89, 0, 255) 1px 0 5px;
 }
 
+/* ------------------Display box---------- */
+.display-box {
+  padding: 50px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.display-box img {
+  border: 3px solid;
+  border-color: #2195f3a4;
+  border-radius: 10px;
+}
+
+.show-image {
+  margin: auto;
+  width: 100%;
+  height: 100%;
+}
+
 /*----------------------------*\
             User
         \*----------------------------*/

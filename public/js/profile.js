@@ -86,6 +86,7 @@ fetchProfileStatCount(userId, "comment"); //Comments count
 dpInput.addEventListener("change", async (e) => {
   // Get the selected file
   const [file] = e.target.files;
+  const date = Date.now();
   if (file) {
     try {
       const fd = new FormData();
@@ -117,8 +118,7 @@ dpInput.addEventListener("change", async (e) => {
 
 const editProfileModal = document.getElementById("edit-profile-modal");
 
-editProfileBtn.addEventListener("click", (event) => {
-  console.log("edit profile clicked!");
+editProfileBtn.addEventListener("click", (event) => {  
   editFormChanged = false; //Set data chaged to false
   editProfileModal.style.display = "block";
 });
@@ -131,12 +131,12 @@ editProfileForm.addEventListener("input", (event) => {
 });
 
 editProfileForm
-  .getElementsByClassName('deletebtn')[0]
+  .getElementsByClassName("deletebtn")[0]
   .addEventListener("click", async (event) => {
     const urlencoded = new URLSearchParams();
     urlencoded.append("username", editProfileUsername.value);
     urlencoded.append("email", editProfileEmail.value);
-    urlencoded.append("about", editProfileAbout.value);    
+    urlencoded.append("about", editProfileAbout.value);
 
     const requestOptions = {
       method: "PUT",
@@ -150,8 +150,7 @@ editProfileForm
     // Only if input value is changed
     if (editFormChanged) {
       try {
-        const result = await myCustomFetch(`./user/${userId}`, requestOptions);
-        console.log("Result from server:-", result);
+        const result = await myCustomFetch(`./user/${userId}`, requestOptions);        
 
         if (result.errors) {
           result.errors.forEach((err) => {

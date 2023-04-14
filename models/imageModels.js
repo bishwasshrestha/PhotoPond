@@ -1,7 +1,6 @@
 "use strict";
 import pool from "../db/database.js";
 
-
 // now get a Promise wrapped instance of that pool
 const promisePool = pool.promise();
 
@@ -13,7 +12,7 @@ const getAllImages = async () => {
     );
     return rows;
   } catch (e) {
-    console.log("Error getAllPosts:-", e);
+    console.log("Could not retrieve images, Error:", e);
   }
 };
 
@@ -25,7 +24,7 @@ const getImageById = async (id) => {
     );
     return rows;
   } catch (err) {
-    console.log("Error getImageById:-", err);
+    console.log("Could not retrieve image by Id, Error:", err);
   }
 };
 
@@ -37,7 +36,7 @@ const getTotalPostsByUser = async (user) => {
     );
     return rows;
   } catch (err) {
-    console.log("Error getTotalPostsByUser:-", err);
+    console.log("Could not retrieve posts, Error:", err);
   }
 };
 
@@ -45,12 +44,12 @@ const postImage = async (data) => {
   console.log("This is data:-", data);
   try {
     const [rows] = await promisePool.execute(
-      "INSERT INTO `image` (`imagename`,`owner_id`, creation_date) VALUES (?,?)",
+      "INSERT INTO `image` (`imagename`,`owner_id`) VALUES (?,?)",
       data
     );
     return rows;
   } catch (err) {
-    console.log("Error postImage:-", err);
+    console.log("Could not post, Error:", err);
   }
 };
 
@@ -62,7 +61,7 @@ const deleteImage = async (id) => {
     );
     return rows;
   } catch (err) {
-    console.log("Error deleteimage:", err);
+    console.log("Could not delete, Error:", err);
   }
 };
 

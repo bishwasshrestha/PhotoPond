@@ -1,33 +1,18 @@
 "use strict";
 
-import {
-  userId,
-  userToken,
-  fetchProfileStatCount,
-  myCustomFetch,
-  timeAgo,
-  updateTimeInterval,
-  modalClickHandler,
-  showContent,
-  hideContent,
-  slideToggle,
-} from "./main.js";
+import * as main from "./main.js";
 
 //<! HTML for Post info--===============================================================================================-->
 
 const postData = `<div class="gallery-item-info">
     <ul>
 
-      <li class="gallery-item-likes">
-        <button id="like-button">Like</button>
-        <span class="visually-hidden">Likes:</span>
-        <i class="fas fa-heart" aria-hidden="true"></i> 
+      <li class="gallery-item-likes">        
+       <i class="fas fa-heart" aria-hidden="true"></i> 
         <span id="likes-count"></span>
       </li>
 
-      <li class="gallery-item-comments">
-        <button id="comment-button">Comment</button>
-        <span class="visually-hidden">Comments:</span>
+      <li class="gallery-item-comments">  
         <i class="fas fa-comment" aria-hidden="true"></i> 
         <span id="comments-count"></span>
       </li>
@@ -94,8 +79,8 @@ const createPostCards = (posts) => {
     /*getElementById() is only available as a method of the global document object,
      and not available as a method on all element objects in the DOM.*/
 
-    const likeBtn = galleryItemInfo.querySelector("#like-button");
-    const commentBtn = galleryItemInfo.querySelector("#comment-button");
+    const likeBtn = galleryItemInfo.querySelector(".fa-heart");
+    const commentBtn = galleryItemInfo.querySelector(".fa-comment");
     const postedComments = commentSection.querySelector("#posted-comments");
     const commentInputField =
       commentSection.getElementsByTagName("textarea")[0];
@@ -103,35 +88,35 @@ const createPostCards = (posts) => {
     const postUplodedTime = galleryItemInfo.getElementsByClassName("m-0")[0];
 
     // Attach posted time for each post when loded first time
-    postUplodedTime.innerText = timeAgo(post.creation_date);
+    const date = new Date(post.creation_date);
+    postUplodedTime.innerText = main.timeAgo(date);
 
     // Update posted time for each post every timeinterval
-    updateTimeInterval(postUplodedTime, post.creation_date);
+    main.updateTimeInterval(postUplodedTime, post.creation_date);
 
     // Only owner of the post allowed to delete
-    if (userId == post.owner_id) {
-      showContent(imageWithIndex.querySelector(`.chip i`));
+    if (main.userId === post.owner_id) {
+      main.showContent(imageWithIndex.querySelector(`.chip i`));
     }
 
     // Populate Likes on each post
     // When like button is clicked
     likeBtn.addEventListener("click", (e) => {
       console.log("like btn clicked");
-      if (likeBtn.innerText == "Like") {
+      if (likeBtn.style.color != "red") {
         fetchLikes("POST", "add", post.image_id);
-        likeBtn.innerText = "Liked";
-        likeBtn.style.backgroundColor = "#3675EA";
+        likeBtn.style.color = "red";
       } else {
         fetchLikes("DELETE", "remove", post.image_id);
-        likeBtn.innerText = "Like";
-        likeBtn.style.backgroundColor = "";
+        likeBtn.style.color = "#b1b5a4";
       }
     });
 
     // Fetch likes of a post from backend for all users
     const getLikes = async (imageId) => {
       const likeCount = imageWithIndex.querySelector(`#likes-count`);
-      const like = await myCustomFetch(`./like/${imageId}`);
+      const like = await main.myCustomFetch(`./like/${imageId}`);
+
       if (like.likes_count) {
         likeCount.innerHTML = like.likes_count;
       } else {
@@ -142,27 +127,26 @@ const createPostCards = (posts) => {
     // Fetch likes from backend for specific user only (Logged in user)
     const fetchLikes = async (myMethod, route, imageId) => {
       var urlencoded = new URLSearchParams();
-      urlencoded.append("userId", userId);
+      urlencoded.append("userId", main.userId);
       urlencoded.append("imageId", imageId);
 
       const fetchOptions = {
         method: myMethod,
         headers: {
-          Authorization: "Bearer " + userToken,
+          Authorization: "Bearer " + main.userToken,
         },
         body: urlencoded,
         redirect: "follow",
       };
-      const like = await myCustomFetch(`./like/${route}/`, fetchOptions);
+      const like = await main.myCustomFetch(`./like/${route}/`, fetchOptions);
 
       if (like.message) {
         getLikes(imageId);
-        fetchProfileStatCount(userId, "like");
+        main.fetchProfileStatCount(main.userId, "like");
       }
       if (like.status) {
         const image = like.status.image_id;
-        likeBtn.innerText = "Liked";
-        likeBtn.style.backgroundColor = "#3675EA";
+        likeBtn.style.color = "#b1b5a4";
       }
     };
 
@@ -170,7 +154,7 @@ const createPostCards = (posts) => {
 
     //Slide down & up comment section
     commentBtn.addEventListener("click", (e) => {
-      slideToggle(commentSection);
+      main.slideToggle(commentSection);
     });
 
     const createComments = async (comments) => {
@@ -178,13 +162,15 @@ const createPostCards = (posts) => {
       const comments_count = comments?.filter(
         (comment) => comment.image_id == post.image_id
       ).length;
+
       comments.forEach((comment) => {
+        const timeStamp = new Date(comment.time_stamp);
         const listItem = `
         <div class="comment-heading">
             <div class="comment-info">
               <a href="#" class="comment-author">${comment.username}</a>
               <p id=${comment.comment_id} class="m-0">
-              ${timeAgo(comment.time_stamp)}
+              ${main.timeAgo(timeStamp)}
               </p>
           </div>
         </div>
@@ -198,7 +184,7 @@ const createPostCards = (posts) => {
         const comments = postedComments.querySelectorAll(`.m-0`);
         Array.from(comments).map((element) => {
           if (element.id == comment.comment_id) {
-            updateTimeInterval(element, comment.time_stamp);
+            main.updateTimeInterval(element, comment.time_stamp);
           }
         });
 
@@ -212,7 +198,7 @@ const createPostCards = (posts) => {
 
     // Fetch comments of a post from backend for all users
     const getComments = async (id) => {
-      const comments = await myCustomFetch(`./comment/${id}`);
+      const comments = await main.myCustomFetch(`./comment/${id}`);
       createComments(comments);
       // fetchProfileStatCount(userId, "comment");
     };
@@ -236,18 +222,18 @@ const createPostCards = (posts) => {
 
         const urlencoded = new URLSearchParams();
         urlencoded.append("content", commentInputField.value);
-        urlencoded.append("userId", userId);
+        urlencoded.append("userId", main.userId);
         urlencoded.append("imageId", post.image_id);
 
         const requestOptions = {
           method: "POST",
           headers: {
-            Authorization: "Bearer " + userToken,
+            Authorization: "Bearer " + main.userToken,
           },
           body: urlencoded,
           redirect: "follow",
         };
-        const result = await myCustomFetch("./comment/", requestOptions);
+        const result = await main.myCustomFetch("./comment/", requestOptions);
         if (result.message) {
           commentInputField.value = "";
           commentSection.querySelector(`button`).disabled = true;
@@ -257,11 +243,16 @@ const createPostCards = (posts) => {
 
     // When a image is clicked, open in a new window
     const galleryItem = imageWithIndex.querySelector(`.gallery-image`);
+      const clickedImage = document.getElementById('show-image')
     galleryItem.addEventListener("click", () => {
       //Get original image URL
       const imgUrl = `./uploads/${post.imagename}`;
       //Open image in new tab
-      window.open(imgUrl, "_blank");
+      // window.open(imgUrl, "_blank");
+      main.modalClickHandler(clickedImage);
+      console.log(clickedImage);
+      clickedImage.style.display = "block";
+      clickedImage.querySelector("#image").src = imgUrl;
     });
 
     // When clicked on the trash icon
@@ -270,10 +261,10 @@ const createPostCards = (posts) => {
     imageWithIndex
       .querySelector(`#trash`)
       .addEventListener("click", (event) => {
-        showContent(deleteModal); // delete picture modal
+        main.showContent(deleteModal); // delete picture modal
       });
 
-    modalClickHandler(deleteModal);
+    main.modalClickHandler(deleteModal);
 
     // When trash icon is pressed, DELETE a post/image
 
@@ -285,16 +276,16 @@ const createPostCards = (posts) => {
     //     const fetchOptions = {
     //       method: "DELETE",
     //       headers: {
-    //         Authorization: "Bearer " + userToken,
+    //         Authorization: "Bearer " + main.userToken,
     //       },
     //     };
 
-    //   const deleteRes =  await myCustomFetch(`./image/${post.image_id}`, fetchOptions);
+    //   const deleteRes =  await main.myCustomFetch(`./image/${post.image_id}`, fetchOptions);
     //     if (deleteRes.status) {
     //       populateImages();
-    //       fetchProfileStatCount(userId, "image");
-    //       fetchProfileStatCount(userId, "like");
-    //       fetchProfileStatCount(userId, "comment");
+    //       fetchProfileStatCount(main.userId, "image");
+    //       fetchProfileStatCount(main.userId, "like");
+    //       fetchProfileStatCount(main.userId, "comment");
     //       hideContent(deleteModal);
     //     }
     //   });
@@ -304,7 +295,7 @@ const createPostCards = (posts) => {
     getLikes(post.image_id); //Get all the likes
 
     // Like and Comment allowed only when logged in
-    if (!userId) {
+    if (!main.userId) {
       likeBtn.disabled = true;
       commentBtn.disabled = true;
     } else {
@@ -317,7 +308,7 @@ const createPostCards = (posts) => {
 
 // Fetch all the posts and populate them
 const populateImages = async () => {
-  const images = await myCustomFetch("./image/");
+  const images = await main.myCustomFetch("./image/");
   createPostCards(images);
 };
 
@@ -344,23 +335,23 @@ document
 
     const fd = new FormData();
     fd.append("image", document.getElementById("fileInput").files[0]);
-    fd.append("ownerId", userId);
+    fd.append("ownerId", main.userId);
 
     const fetchOptions = {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + userToken,
+        Authorization: "Bearer " + main.userToken,
       },
       body: fd,
     };
 
-    const result = await myCustomFetch("./image/", fetchOptions);
+    const result = await main.myCustomFetch("./image/", fetchOptions);
 
     if (result.status) {
       document.getElementById("fileLabel").innerText = "Upload";
       document.querySelector(".upload-form").reset();
       populateImages();
-      fetchProfileStatCount(userId, "image");
+      main.fetchProfileStatCount(main.userId, "image");
     }
   });
 
@@ -381,7 +372,7 @@ document
     });
   });
 
-modalClickHandler(logoutModal);
+main.modalClickHandler(logoutModal);
 
 // logoutModal
 //   .getElementsByClassName("deletebtn")
