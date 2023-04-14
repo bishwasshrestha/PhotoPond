@@ -19,7 +19,7 @@ const profileAbout = document.querySelector(".profile-bio .profile-bio-only");
 const profileUserName = document.querySelector(".profile-user-name");
 
 // Edit profile form elements
-const editProfileBtn = document.getElementById("edit_profile");
+const editProfileBtn = document.getElementById("edit-profile");
 const editProfileForm = document.getElementById("editProfileForm");
 const editProfileUsername = document.getElementById("editProfileUsername");
 const editProfileEmail = document.getElementById("editProfileEmail");
@@ -37,7 +37,7 @@ const populateProfile = async (id) => {
 
   const user = await myCustomFetch(`/user/${id}`, fetchOptions);
 
-  console.log("This is user :-", user.username);
+  // console.log("This is user :-", user.username);
   if (user.user_id) {
     // Check if user profile exits
     if (user.dp) {
@@ -67,7 +67,7 @@ const populateProfile = async (id) => {
 };
 
 // remove signin button if loggedin
-if (sessionStorage.token) {
+if (userToken) {
   showContent(document.querySelector(".profile"));
   hideContent(document.querySelector(".signin"));
   populateProfile(userId);
@@ -131,13 +131,12 @@ editProfileForm.addEventListener("input", (event) => {
 });
 
 editProfileForm
-  .getElementsByClassName("deletebtn")
+  .getElementsByClassName('deletebtn')[0]
   .addEventListener("click", async (event) => {
-    event.preventDefault();
     const urlencoded = new URLSearchParams();
     urlencoded.append("username", editProfileUsername.value);
     urlencoded.append("email", editProfileEmail.value);
-    urlencoded.append("about", editProfileAbout.value);
+    urlencoded.append("about", editProfileAbout.value);    
 
     const requestOptions = {
       method: "PUT",

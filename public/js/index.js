@@ -289,10 +289,7 @@ const createPostCards = (posts) => {
     //       },
     //     };
 
-    //     const deleteRes = await myCustomFetch(
-    //       `./image/${post.image_id}`,
-    //       fetchOptions
-    //     );
+    //   const deleteRes =  await myCustomFetch(`./image/${post.image_id}`, fetchOptions);
     //     if (deleteRes.status) {
     //       populateImages();
     //       fetchProfileStatCount(userId, "image");
@@ -375,6 +372,13 @@ document
   .addEventListener("click", (event) => {
     console.log("Profile logout clicked");
     showContent(logoutModal);
+    document.getElementById("deletebtn").addEventListener("click", () => {
+      event.preventDefault();
+      console.log("logout");
+      sessionStorage.clear();
+      location.reload();
+      hideContent(logoutModal);
+    });
   });
 
 modalClickHandler(logoutModal);
