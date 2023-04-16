@@ -20,6 +20,13 @@ const getTotalPostsByUser = async (req, res) => {
   res.json(posts);
 };
 
+const getAllImagesByUser = async (req, res) => {
+  const id = req.params.userId;  
+  const posts = await model.getAllImagesByUser(id);
+  const images = posts.map(({ ...post }) => post);
+  res.json(images);
+};
+
 const uploadImage = async (req, res) => {
   try {
     const data = [req.file.filename, req.body.ownerId];
@@ -46,4 +53,5 @@ export {
   uploadImage,
   deletePost,
   getTotalPostsByUser,
+  getAllImagesByUser,
 };

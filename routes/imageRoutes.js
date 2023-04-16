@@ -9,13 +9,19 @@ const router = express.Router();
 router
   .route("/")
   .get(controller.getImagesList) // get all images
-  .post(checkAuth,  uploadDestPost.single("image"), controller.uploadImage); // create a post
+  .post(checkAuth, uploadDestPost.single("image"), controller.uploadImage); // create a post
 
 router
   .route("/:id", checkAuth)
   .get(controller.getImageWithID) // get a image with ID
   .delete(controller.deletePost); // delete a post
 
-router.get("/user/:userId", controller.getTotalPostsByUser);
+router
+  .route("/user/:userId")
+  .get(controller.getTotalPostsByUser);
+
+router
+  .route("/images/:userId")
+  .get( controller.getAllImagesByUser);
 
 export default router;

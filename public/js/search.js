@@ -19,7 +19,7 @@ const handleSearch = async (e) => {
 
   console.log("fetch result:-", response);
 
-  createPostCards(response);
+  createPostCards(response.json());
 };
 
 searchInput.addEventListener("change", (event) => {

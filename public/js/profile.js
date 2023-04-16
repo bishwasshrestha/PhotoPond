@@ -10,7 +10,7 @@ import {
   showContent,
   hideModal,
 } from "./main.js";
-import { populateImages } from "./index.js";
+import { createPostCards} from "./index.js";
 
 // Profile section elements
 const displayPicture = document.querySelector(".profile-image");
@@ -66,20 +66,14 @@ const populateProfile = async (id) => {
   });
 };
 
-// remove signin button if loggedin
 if (userToken) {
-  showContent(document.querySelector(".profile"));
-  hideContent(document.querySelector(".signin"));
   populateProfile(userId);
 }
-// remove upload button if not loggedin
-if (!userToken) {
-  hideContent(document.querySelector(".upload-form"));
-  hideContent(document.querySelector(".profile"));
-}
-
-fetchProfileStatCount(userId, "image"); //Posts count
+//show total posts by user
+fetchProfileStatCount(userId, "image");
+//show total likes for user
 fetchProfileStatCount(userId, "like"); //Likes count
+//show total comments for user
 fetchProfileStatCount(userId, "comment"); //Comments count
 
 // Eventlistner to catch when file added
@@ -106,7 +100,6 @@ dpInput.addEventListener("change", async (e) => {
 
       if (response.status) {
         populateProfile(userId);
-        populateImages();
       }
     } catch (err) {
       console.log("Error while profile update", err);
@@ -118,7 +111,7 @@ dpInput.addEventListener("change", async (e) => {
 
 const editProfileModal = document.getElementById("edit-profile-modal");
 
-editProfileBtn.addEventListener("click", (event) => {  
+editProfileBtn.addEventListener("click", (event) => {
   editFormChanged = false; //Set data chaged to false
   editProfileModal.style.display = "block";
 });
@@ -150,7 +143,7 @@ editProfileForm
     // Only if input value is changed
     if (editFormChanged) {
       try {
-        const result = await myCustomFetch(`./user/${userId}`, requestOptions);        
+        const result = await myCustomFetch(`./user/${userId}`, requestOptions);
 
         if (result.errors) {
           result.errors.forEach((err) => {
@@ -186,3 +179,36 @@ editProfileForm
         });
     }
   });
+
+// Logout modal event listners
+const logoutModal = document.getElementById("id01");
+
+document
+  .getElementById("profile-logout-btn")
+  .addEventListener("click", (event) => {
+    console.log("Profile logout clicked");
+    showContent(logoutModal);
+    document.getElementById("deletebtn").addEventListener("click", () => {
+      event.preventDefault();
+      console.log("logout");
+      sessionStorage.clear();
+      location.reload();
+      hideContent(logoutModal);
+    });
+  });
+
+modalClickHandler(logoutModal);
+
+logoutModal.querySelector(".deletebtn").addEventListener("click", (event) => {
+  event.preventDefault();
+  sessionStorage.clear();
+  location.reload();
+  hideContent(logoutModal);
+});
+
+const populatePosts = async () => {
+  const posts = await myCustomFetch(`./image/images/${userId}`);
+  console.log(posts)
+  createPostCards(posts, ".myposts");
+};
+populatePosts();

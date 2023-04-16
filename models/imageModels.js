@@ -24,19 +24,30 @@ const getImageById = async (id) => {
     );
     return rows;
   } catch (err) {
-    console.log("Could not retrieve image by Id, Error:", err);
+    console.log("Getting post with id failed, Error:", err);
   }
 };
 
 const getTotalPostsByUser = async (user) => {
   try {
     const [rows] = await promisePool.execute(
-      "SELECT `owner_id`,count(*) as count FROM `image` WHERE `owner_id`=?",
+      "SELECT count(*) as count FROM `image`  JOIN `user` ON image.owner_id = user.user_id WHERE `owner_id` = ?;",
       [user]
     );
     return rows;
   } catch (err) {
-    console.log("Could not retrieve posts, Error:", err);
+    console.log("Getting post count from user failed, Error:", err);
+  }
+};
+const getAllImagesByUser = async (user) => {
+  try {
+    const [rows] = await promisePool.execute(
+      "SELECT * FROM `image` INNER JOIN `user` ON image.owner_id = user.user_id WHERE `owner_id` = ?",
+      [user]
+    );    
+    return rows;
+  } catch (err) {
+    console.log("Getting all image from user failed!");
   }
 };
 
@@ -71,4 +82,5 @@ export {
   postImage,
   deleteImage,
   getTotalPostsByUser,
+  getAllImagesByUser,
 };
