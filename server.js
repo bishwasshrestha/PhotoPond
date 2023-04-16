@@ -13,13 +13,13 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-app.use(express.static("public"));
 
 var corsOptions = {
   origin: "127.0.0.1:5500",
 };
 
 app.use(cors(corsOptions)); // To allow resources from different sources/outside domains
+app.use(express.static("public"));
 app.use(helmet()); // Protect your HTTP headers
 app.use("/modules", express.static("node_modules"));
 app.use(express.json());

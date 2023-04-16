@@ -39,8 +39,8 @@ const postData = `<div class="gallery-item-info">
           <p>Are you sure you want to Delete?</p>
         
           <div class="clearfix">
-            <button class="cancelbtn">Cancel</button>
-            <button class="deletebtn">Delete</button>
+            <button class="cancelbtn" type="button">Cancel</button>
+            <button class="deletebtn" type="button">Delete</button>
           </div>
         </div>
       </form>
@@ -54,7 +54,7 @@ const createPostCards = (posts) => {
     document.querySelector(".gallery").insertAdjacentHTML(
       "beforeend",
       // Each gallery div is assigned with unique id with index number 'image-index-${i}'
-      `<div id="image-index-${i}" class="gallery-item" tabindex="0">
+      `<div id="image-index-${i}" class="gallery-item" tabindex=${i}>
         
         <div class="chip">
           <img class="dpPost" src="./profiles/${post.dp}"  alt="Person" width="96" height="96">
@@ -102,13 +102,18 @@ const createPostCards = (posts) => {
     // Populate Likes on each post
     // When like button is clicked
     likeBtn.addEventListener("click", (e) => {
-      console.log("like btn clicked");
-      if (likeBtn.style.color != "red") {
-        fetchLikes("POST", "add", post.image_id);
-        likeBtn.style.color = "red";
+      //check if logged in.
+      if (main.userToken) {
+        if (likeBtn.style.color != "red") {
+          fetchLikes("POST", "add", post.image_id);
+          likeBtn.style.color = "red";
+        } else {
+          fetchLikes("DELETE", "remove", post.image_id);
+          likeBtn.style.color = "#b1b5a4";
+        }
       } else {
-        fetchLikes("DELETE", "remove", post.image_id);
-        likeBtn.style.color = "#b1b5a4";
+        alert("Please login!");
+        window.location.assign("./login.html");
       }
     });
 
@@ -154,7 +159,12 @@ const createPostCards = (posts) => {
 
     //Slide down & up comment section
     commentBtn.addEventListener("click", (e) => {
-      main.slideToggle(commentSection);
+      if (main.userToken) {
+        main.slideToggle(commentSection);
+      } else {
+        alert("Please log in!");
+        window.location.assign("./login.html");
+      }
     });
 
     const createComments = async (comments) => {
@@ -241,16 +251,15 @@ const createPostCards = (posts) => {
         }
       });
 
-    // When a image is clicked, open in a new window
+    // show image when a post is clicked
     const galleryItem = imageWithIndex.querySelector(`.gallery-image`);
-      const clickedImage = document.getElementById('show-image')
+    const clickedImage = document.getElementById("show-image");
     galleryItem.addEventListener("click", () => {
       //Get original image URL
       const imgUrl = `./uploads/${post.imagename}`;
-      //Open image in new tab
-      // window.open(imgUrl, "_blank");
+
+      //Open clicked image
       main.modalClickHandler(clickedImage);
-      console.log(clickedImage);
       clickedImage.style.display = "block";
       clickedImage.querySelector("#image").src = imgUrl;
     });
@@ -261,34 +270,47 @@ const createPostCards = (posts) => {
     imageWithIndex
       .querySelector(`#trash`)
       .addEventListener("click", (event) => {
-        main.showContent(deleteModal); // delete picture modal
+        if (!main.userToken) {
+          alert("Please log in!");
+          window.location.assign("./login.html");
+        } else {
+          main.showContent(deleteModal); // delete picture modal
+        }
       });
 
     main.modalClickHandler(deleteModal);
 
     // When trash icon is pressed, DELETE a post/image
 
-    // deleteModal
-    //   .getElementsByClassName("deletebtn")
-    //   .addEventListener("click", async (event) => {
-    //     event.preventDefault();
+    deleteModal
+      .querySelector(".deletebtn")
+      .addEventListener("click", async (event) => {
+        event.preventDefault();
 
-    //     const fetchOptions = {
-    //       method: "DELETE",
-    //       headers: {
-    //         Authorization: "Bearer " + main.userToken,
-    //       },
-    //     };
+        const fetchOptions = {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + main.userToken,
+          },
+        };
+        if (post.owner_id == main.userId) {
+          const deleteRes = await main.myCustomFetch(
+            `./image/${post.image_id}`,
+            fetchOptions
+          );
 
-    //   const deleteRes =  await main.myCustomFetch(`./image/${post.image_id}`, fetchOptions);
-    //     if (deleteRes.status) {
-    //       populateImages();
-    //       fetchProfileStatCount(main.userId, "image");
-    //       fetchProfileStatCount(main.userId, "like");
-    //       fetchProfileStatCount(main.userId, "comment");
-    //       hideContent(deleteModal);
-    //     }
-    //   });
+          if (deleteRes.status) {
+            populateImages();
+            main.fetchProfileStatCount(main.userId, "image");
+            main.fetchProfileStatCount(main.userId, "like");
+            main.fetchProfileStatCount(main.userId, "comment");
+            main.hideContent(deleteModal);
+          }
+        } else {
+          main.hideContent(deleteModal);
+          alert("Permission denined!");
+        }
+      });
 
     //When page is loaded
     getComments(post.image_id); //Get all the comments
@@ -362,7 +384,7 @@ document
   .getElementById("profile-logout-btn")
   .addEventListener("click", (event) => {
     console.log("Profile logout clicked");
-    showContent(logoutModal);
+    main.showContent(logoutModal);
     document.getElementById("deletebtn").addEventListener("click", () => {
       event.preventDefault();
       console.log("logout");
@@ -374,13 +396,11 @@ document
 
 main.modalClickHandler(logoutModal);
 
-// logoutModal
-//   .getElementsByClassName("deletebtn")
-//   .addEventListener("click", (event) => {
-//     event.preventDefault();
-//     sessionStorage.clear();
-//     location.reload();
-//     hideContent(logoutModal);
-//   });
+logoutModal.querySelector(".deletebtn").addEventListener("click", (event) => {
+  event.preventDefault();
+  sessionStorage.clear();
+  location.reload();
+  hideContent(logoutModal);
+});
 
 export { populateImages, createPostCards };
