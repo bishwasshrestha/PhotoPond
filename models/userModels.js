@@ -89,7 +89,7 @@ const userSearch = async (query) => {
   try {
     const [rows] = await promisePool.execute(
       `SELECT * FROM image INNER JOIN user ON image.owner_id = user.user_id WHERE username LIKE '%${query}%' ORDER BY creation_date DESC;`
-      // `SELECT * FROM user WHERE username LIKE '%${query}%' ;`
+      //  `SELECT * FROM user WHERE username LIKE '%${query}%' ;`
     );
     return rows;
   } catch (err) {

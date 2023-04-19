@@ -25,8 +25,6 @@ const uploadProfile = async (req, res) => {
 };
 
 const updateUserData = async (req, res) => {
- 
-
   if (!req.body.about) {
     req.body.about = "";
   }
@@ -49,7 +47,7 @@ const updateUserData = async (req, res) => {
 
 const userSearch = async (req, res) => {
   try {
-    const query = req.query.name;
+    const query = req.query.username;
 
     console.log("This is a query", query);
 

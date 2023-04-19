@@ -1,5 +1,5 @@
 import * as main from "./main.js";
-import { populateImages } from "./index.js";
+import { populatePosts } from "./profile.js";
 
 document.getElementById("fileInput").addEventListener("change", (e) => {
   // Get the selected file
@@ -36,7 +36,7 @@ document
     if (result.status) {
       document.getElementById("fileLabel").innerText = "Upload";
       document.querySelector(".upload-form").reset();
-      populateImages();
+      populatePosts();
       main.fetchProfileStatCount(main.userId, "image");
     }
   });

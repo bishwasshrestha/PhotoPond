@@ -3,11 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <title>PhotoPound</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 
     <link rel="stylesheet" href="./css/profile.css" />
+    <link rel="stylesheet" href="./css/modal.css" />
+    <link rel="stylesheet" href="./css/gallery.css" />
 
-    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./css/header.css" />
     <link rel="stylesheet" href="./css/search.css" />
     <link
       href="./modules/@fortawesome/fontawesome-free/css/all.min.css"
@@ -27,7 +29,7 @@
           <a href="index.html">PhotoPound</a>
         </span>
 
-        <div class="search-container">
+        <div class="search-container profile-search-container">
           <form id="search-form">
             <input type="text" placeholder="Search..." name="search" required />
             <button type="button">
@@ -48,6 +50,34 @@
           />
           <button type="submit">Post</button>
         </form>
+
+        <!------------------ Log out section ---------------------------->
+        <div class="logout_section">
+          <button
+            id="profile-logout-btn"
+            class="btn profile-settings-btn"
+            aria-label="profile settings"
+          >
+            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+          </button>
+
+          <!-- Start of logout dialog-->
+          <div id="id01" class="modal">
+            <span class="close" title="Close Modal">×</span>
+            <form class="modal-content">
+              <div class="container">
+                <h1>Logout</h1>
+                <p>Are you sure you want to Logout?</p>
+
+                <div class="clearfix">
+                  <button class="cancelbtn">Cancel</button>
+                  <button class="deletebtn">Logout</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- End of logout dialog-->
+        </div>
       </div>
     </header>
     <!-- ===========================================header end ====================================================-->
@@ -128,33 +158,6 @@
               </form>
             </div>
             <!-- ===========================================Modal : Edit profile ===========================================-->
-
-            <div class="logout_section">
-              <button
-                id="profile-logout-btn"
-                class="btn profile-settings-btn"
-                aria-label="profile settings"
-              >
-                <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-              </button>
-
-              <!-- Start of logout dialog-->
-              <div id="id01" class="modal">
-                <span class="close" title="Close Modal">×</span>
-                <form class="modal-content">
-                  <div class="container">
-                    <h1>Logout</h1>
-                    <p>Are you sure you want to Logout?</p>
-
-                    <div class="clearfix">
-                      <button class="cancelbtn">Cancel</button>
-                      <button class="deletebtn">Logout</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <!-- End of logout dialog-->
-            </div>
           </div>
 
           <div class="profile-stats">
@@ -179,14 +182,12 @@
       <!-- ===========================================start of container===========================================-->
 
       <div class="container">
-        <div class=".galery myposts"></div>
+        <div class="myposts"></div>
       </div>
       <!--=========================================== End of container ===========================================-->
     </main>
 
     <script type="module" src="./js/profile.js" defer="defer"></script>
-    <script type="module" src="./js/search.js" defer></script>
-    <script type="module" src="./js/index.js" defer></script>
     <script type="module" src="./js/upload.js" defer></script>
   </body>
 </html>

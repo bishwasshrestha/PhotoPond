@@ -10,7 +10,7 @@ import {
   showContent,
   hideModal,
 } from "./main.js";
-import { createPostCards} from "./index.js";
+import { createPostCards } from "./index.js";
 
 // Profile section elements
 const displayPicture = document.querySelector(".profile-image");
@@ -26,6 +26,8 @@ const editProfileEmail = document.getElementById("editProfileEmail");
 const editProfileAbout = document.getElementById("editProfileAbout");
 
 let editFormChanged = false;
+
+// a function to display users information on profile page designated to users info. 
 const populateProfile = async (id) => {
   const fetchOptions = {
     method: "GET",
@@ -37,7 +39,6 @@ const populateProfile = async (id) => {
 
   const user = await myCustomFetch(`/user/${id}`, fetchOptions);
 
-  // console.log("This is user :-", user.username);
   if (user.user_id) {
     // Check if user profile exits
     if (user.dp) {
@@ -66,8 +67,12 @@ const populateProfile = async (id) => {
   });
 };
 
+//if user is logged in, profile is populated accordingly
+
 if (userToken) {
   populateProfile(userId);
+} else {
+  location.assign("login.html");
 }
 //show total posts by user
 fetchProfileStatCount(userId, "image");
@@ -125,7 +130,7 @@ editProfileForm.addEventListener("input", (event) => {
 
 editProfileForm
   .getElementsByClassName("deletebtn")[0]
-  .addEventListener("click", async (event) => {
+  .addEventListener("click", async () => {
     const urlencoded = new URLSearchParams();
     urlencoded.append("username", editProfileUsername.value);
     urlencoded.append("email", editProfileEmail.value);
@@ -140,7 +145,7 @@ editProfileForm
       redirect: "follow",
     };
 
-    // Only if input value is changed
+    // Only change in input value is detected the following will execute to update the database as users change
     if (editFormChanged) {
       try {
         const result = await myCustomFetch(`./user/${userId}`, requestOptions);
@@ -181,34 +186,27 @@ editProfileForm
   });
 
 // Logout modal event listners
-const logoutModal = document.getElementById("id01");
-
-document
-  .getElementById("profile-logout-btn")
-  .addEventListener("click", (event) => {
-    console.log("Profile logout clicked");
-    showContent(logoutModal);
-    document.getElementById("deletebtn").addEventListener("click", () => {
-      event.preventDefault();
-      console.log("logout");
-      sessionStorage.clear();
-      location.reload();
-      hideContent(logoutModal);
-    });
-  });
-
+const logoutModal = document.querySelector("#id01");
 modalClickHandler(logoutModal);
 
-logoutModal.querySelector(".deletebtn").addEventListener("click", (event) => {
-  event.preventDefault();
-  sessionStorage.clear();
-  location.reload();
-  hideContent(logoutModal);
+//on click of logot button the modal of logout is presented
+document.getElementById("profile-logout-btn").addEventListener("click", () => {
+  console.log("Profile logout clicked");
+  showContent(logoutModal);
 });
 
+//if OK is clicked, the page wil be redirected to login page where user can login and come back to this page
+logoutModal.querySelector(".deletebtn").addEventListener("click", () => {
+  sessionStorage.clear();
+  hideContent(logoutModal); 
+});
+
+//once everything is setup on profile page we populate the users posts under mypost div
 const populatePosts = async () => {
   const posts = await myCustomFetch(`./image/images/${userId}`);
-  console.log(posts)
   createPostCards(posts, ".myposts");
 };
+
 populatePosts();
+
+export { populatePosts };

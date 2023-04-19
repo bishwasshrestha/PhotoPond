@@ -38,6 +38,7 @@ const uploadImage = async (req, res) => {
 };
 
 const deletePost = async (req, res) => {
+
   try {
     const id = req.params.id;
     await model.deleteImage(id);

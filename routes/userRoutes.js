@@ -8,6 +8,7 @@ import checkAuth from "../utils/checkAuth.js";
 const router = express.Router();
 
 router.get("/:id", controller.userWithId);
+router.get("/", controller.userSearch);
 
 // add a profile picture
 router.post(
@@ -19,6 +20,5 @@ router.post(
 
 router.put("/:id", validationRules(),validate,  checkAuth, controller.updateUserData);
 
-router.get("/", controller.userSearch);
 
 export default router;

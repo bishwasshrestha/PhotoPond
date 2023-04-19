@@ -66,11 +66,10 @@ const postImage = async (data) => {
 
 const deleteImage = async (id) => {
   try {
-    const [rows] = await promisePool.execute(
+    const result = await promisePool.execute(
       "DELETE FROM `image` WHERE `image_id`=?",
       [id]
-    );
-    return rows;
+    );  
   } catch (err) {
     console.log("Could not delete, Error:", err);
   }

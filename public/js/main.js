@@ -54,7 +54,6 @@ const fetchProfileStatCount = async (userID, fetchRoute) => {
 
 const myCustomFetch = async (url, fetchOptions) => {
   // Serves Fetch API for fetching resources
-
   try {
     const response = await fetch(url, fetchOptions);
     const result = await response.json();
