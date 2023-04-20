@@ -38,12 +38,13 @@
 
 .gallery-item-info {
   width: 100%;
-  margin-bottom: 0;
-  color: rgba(163, 95, 95, 0.459);
+  padding: 0;
+  color: rgba(163, 95, 95, 0.5);
 }
 
 .gallery-item-info ul {
   padding-left: 1rem;
+  margin: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
@@ -69,8 +70,7 @@
 
 .gallery-image {
   margin: auto;
-  width: 50vh;
-  height: 70vh;
+  height: 40rem;
   object-fit: contain;
 }
 .comment-section {

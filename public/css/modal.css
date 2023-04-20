@@ -116,3 +116,43 @@
   clear: both;
   display: table;
 }
+
+@media screen and (max-width: 400px) {
+.modal{
+  width: fit-content;  
+  height: max-content;
+  margin: auto; 
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.493);  
+  padding: -5px;
+}
+
+.modal :nth-child(n){
+  width: fit-content;  
+}
+#editProfileForm{
+  padding: 5px;
+  min-width: fit-content;  
+  margin: 0;
+}
+.close{
+  margin-top: 0;
+  z-index: 1;
+  
+}
+
+ #editProfileForm .container{
+  width: 30vh;
+}
+
+#editProfileForm .clearfix{
+  width: 30vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+
+} 
+
+}
