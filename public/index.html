@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PhotoPound</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <link rel="stylesheet" href="./css/header.css" />
+
+    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./css/modal.css" />
+    <link rel="stylesheet" href="./css/search.css" />
+    <link rel="stylesheet" href="./css/gallery.css" />
+
+    
+    <link
+      href="./modules/@fortawesome/fontawesome-free/css/all.min.css"
+      rel="stylesheet"
+    />
+    
+    <link
+      href="https://fonts.googleapis.com/css?family=Tangerine"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="header">
+        <span class="logo"><a href="index.html">PhotoPound</a></span>
+
+        <div class="search-container">
+          <form id="search-form">
+            <input type="text" placeholder="Search..." name="search" required />
+            <button type="button" class="searchBtn">
+              <i class="fa fa-search"> Search </i>
+            </button>
+          </form>
+        </div>
+
+        <div class="signin">
+          <a id="SignInBtn" href="./login.html">
+            <span id="userIcon" class="fas fa-user" aria-hidden="true"></span>
+            <span>Sign In</span>
+          </a>
+        </div> 
+        <div class="visitprofilePage">
+          <a href="profile.html"> 
+            <img class="profile-dp" src="https://img.icons8.com/ios-filled/50/null/guest-male--v1.png" alt="Person" width="40px" height="40px">
+          </a>
+         
+        </div>    
+    </header>
+    <main>
+      <!-- ===========================================start of container===========================================-->
+
+      <div class="container">
+        <div class="gallery"></div>
+      </div>
+      <!--=========================================== End of container ===========================================-->
+    </main>
+    <script src="./js/index.js" type="module"></script>
+    <script src="./js/search.js" type="module"></script>
+   
+  </body>
+</html>
