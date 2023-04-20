@@ -3,7 +3,7 @@
   <img src="https://github.com/bishwasshrestha/PhotoPond/blob/main/demo/photopond1.gif" height="540"/>
   
 # Overview
-social media web page where one can upload and browse pictures from other users
+Full stack social media web app where one can upload and browse pictures from other users
 
 # App Feature
   - login/register
