@@ -1,14 +1,20 @@
-# PhotoPond
-
+# PhotoPond   
+    
+  <img src="https://github.com/bishwasshrestha/PhotoPond/blob/main/demo/photopond1.gif" height="540"/>
+  
 # Overview
 social media web page where one can upload and browse pictures from other users
 
 # App Feature
-  - Snap a picture and upload it quickly.
-  - View all the posts by your friends.
-  - Sort all the posts new to old.
+  - login/register
+  - upload images with ease.  
+  - view posts from users
+  - search posts from users
   - React on friend's posts.
   - Add comments to the pictures.
+  - delete pictures from your gallery
+  - edit your profile 
+  - logout
   
 # Built With 
   - Express.js - Back end web applicaton framework for NodeJS.
