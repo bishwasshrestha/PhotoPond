@@ -6,12 +6,9 @@ import { uploadUserData, getUsersList } from "../models/userModels.js";
 import { secretOrKey } from "../utils/key.js";
 
 const authenticate = (req, res) => {
-
   // Authentication handled as a Promise
   return new Promise((resolve, reject) => {
-
     passport.authenticate("local", { session: false }, (err, user, info) => {
-    
       try {
         if (err || !user) {
           reject(info.message);
@@ -32,9 +29,10 @@ const authenticate = (req, res) => {
 };
 
 const userLogin = async (req, res) => {
+
   try {
     const response = await authenticate(req, res);
-    // console.log("response from authenticate", response);
+    console.log("response from authenticate", response);
     return res.send({
       id: response.user._id,
       ...response.user,
@@ -46,8 +44,8 @@ const userLogin = async (req, res) => {
   }
 };
 const userRegister = async (req, res, next) => {
-  console.log("user register",req.body.username)
-  
+  console.log("user register", req.body.username);
+
   const hash = await bcrypt.hash(
     req.body.password,
     Number(process.env.SALT_ROUNDS) //SALT_ROUNDS converted to a number
@@ -56,7 +54,7 @@ const userRegister = async (req, res, next) => {
   const params = [req.body.username, req.body.email, hash];
 
   if (await uploadUserData(params)) {
-    // This will call next middleware on the list  
+    // This will call next middleware on the list
     console.log("user registered!");
     next();
   } else {

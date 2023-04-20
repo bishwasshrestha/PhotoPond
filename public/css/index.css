@@ -1,59 +1,65 @@
-.header {
+:root {
+  font-size: 10px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0px;
+}
+
+main {
+  font-family: "Open Sans", Arial, sans-serif;
+  width: 100%;
+  padding: 10px;
+}
+
+img {
+  display: block;
+}
+
+.gallery {
   display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  position: fixed;
+  margin: 10px;
+  margin-top: 50px !important;
+}
+.gallery-item {
+  margin-top: 20px;
+  width: 300px;
+}
+/* ------------------Display box---------- */
+.display-box {
   width: 100%;
-  height: 40px;
-  left: 0;
-  z-index: 2;
-}
-
-/*----------------------------*\
-        Logo
-    \*----------------------------*/
-.header .logo {
-  font-family: "Tangerine";
-  font-size: 30px;
-  padding: 5px;
-  width: 130px;
-  font-weight: bolder;
-  text-align: center;
-  text-shadow: rgb(89, 0, 255) 1px 0 5px;
-}
-
-/*----------------------------*\
-        Search
-    \*----------------------------*/
-
-.header .search-container {
+  height: 100%;
+  padding: 50px 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.header input[type="text"] {
-  border-radius: 5px;
-  border: 1px solid #693bd349;
-  color: white;
-  padding: 6px 10px;
-}
-.header .search-container button {
-  padding: 4px;
-  border-radius: 5px;
-  font-size: 15px;
-  color: white;
-  background-color: #693bd3d0;
-  border: 1px solid;
+.display-box img {
+  border: 3px solid;
+  width: 70%;
+
+  border-color: #2195f3a4;
+  border-radius: 10px;
 }
 
-.header .search-container button:hover {
-  background-color: rgb(11, 79, 118);
+.show-image {
+  margin: auto;
 }
+
 /*----------------------------*\
-        User
-    \*----------------------------*/
+            User
+        \*----------------------------*/
 
 .header .signin a {
   padding: 4px;
@@ -78,66 +84,54 @@
   color: white;
 }
 
-/*----------------------------*\
-        Upload Image
-    \*----------------------------*/
-
-.upload-form {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+/* sign in  button visible only when not logged in*/
+.signin {
+  display: none;
 }
 
-.upload-form #fileInput {
-  opacity: 0;
-  width: 0.1px;
-  height: 0.1px;
+/* visit profile div */
+.visitprofilePage {
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 20px;
+  overflow: clip;
+}
+.visitprofilePage img {
+  height: 40px;
+  width: 40px;
 }
 
-.upload-form label {
-  display: block;
-  position: relative;
-  width: 150px;
-  height: 30px;
-  border-radius: 10px 0px 0px 10px;
-  background: linear-gradient(40deg, #ff6ec4, #7873f5);
-  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-weight: bold;
-}
-
-.upload-form button {
-  background: linear-gradient(40deg, #ff6ec4, #927832);
-  height: 33px;
-  margin-top: 1px;
-  border-radius: 0px 10px 10px 0px;
-  color: #fff;
-  font-weight: bold;
+.gallery {
+  padding: 0 2rem;
+  margin: -3rem -3rem;
+  padding-bottom: 3rem;
+  margin-top: 10rem;
 }
 /*------------------------------------------------------------------
     [ Responsive ]*/
 
-@media screen and (max-width: 920px) {
-  .header input[type="text"] {
-    width: 400px;
-  }
-}
-
-@media screen and (max-width: 815px) {
-  .header input[type="text"] {
-    width: 250px;
-  }
-}
-
-@media screen and (max-width: 665px) {
-  .header .search-container {
+@media screen and (max-width: 400px) {
+  .header .logo {
     visibility: hidden;
   }
   .header {
-    justify-content: center;
+    width: 100%;
+    height: 70px;
+  }
+  .search-container {
+    width: 300px;
+    margin-left: -100px;
+  }
+  .search-form {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .visitprofilePage {
+    margin-right: 50px;
+  }
+  .visitprofilePage img {
+    margin-left: -5px;
   }
 }

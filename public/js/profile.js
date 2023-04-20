@@ -10,7 +10,13 @@ import {
   showContent,
   hideModal,
 } from "./main.js";
-import { populateImages } from "./index.js";
+import { createPostCards } from "./index.js";
+
+// Profile section elements
+const displayPicture = document.querySelector(".profile-image");
+const dpInput = document.getElementById("dpInput");
+const profileAbout = document.querySelector(".profile-bio .profile-bio-only");
+const profileUserName = document.querySelector(".profile-user-name");
 
 // Edit profile form elements
 const editProfileBtn = document.getElementById("edit-profile");
@@ -19,14 +25,9 @@ const editProfileUsername = document.getElementById("editProfileUsername");
 const editProfileEmail = document.getElementById("editProfileEmail");
 const editProfileAbout = document.getElementById("editProfileAbout");
 
-// Profile section elements
-const displayPicture = document.querySelector(".profile-image");
-const dpInput = document.getElementById("dpInput");
-const profileAbout = document.querySelector(".profile-bio .profile-bio-only");
-const profileUserName = document.querySelector(".profile-user-name");
-
 let editFormChanged = false;
 
+// a function to display users information on profile page designated to users info. 
 const populateProfile = async (id) => {
   const fetchOptions = {
     method: "GET",
@@ -38,7 +39,6 @@ const populateProfile = async (id) => {
 
   const user = await myCustomFetch(`/user/${id}`, fetchOptions);
 
-  // console.log("This is user :-", user.username);
   if (user.user_id) {
     // Check if user profile exits
     if (user.dp) {
@@ -67,26 +67,25 @@ const populateProfile = async (id) => {
   });
 };
 
-// remove signin button if loggedin
-if (userToken) {
-  showContent(document.querySelector(".profile"));
-  hideContent(document.querySelector(".signin"));
-  populateProfile(userId);
-}
-// remove upload button if not loggedin
-if (!userToken) {
-  hideContent(document.querySelector(".upload-form"));
-  hideContent(document.querySelector(".profile"));
-}
+//if user is logged in, profile is populated accordingly
 
-fetchProfileStatCount(userId, "image"); //Posts count
+if (userToken) {
+  populateProfile(userId);
+} else {
+  location.assign("login.html");
+}
+//show total posts by user
+fetchProfileStatCount(userId, "image");
+//show total likes for user
 fetchProfileStatCount(userId, "like"); //Likes count
+//show total comments for user
 fetchProfileStatCount(userId, "comment"); //Comments count
 
 // Eventlistner to catch when file added
 dpInput.addEventListener("change", async (e) => {
   // Get the selected file
   const [file] = e.target.files;
+  const date = Date.now();
   if (file) {
     try {
       const fd = new FormData();
@@ -106,7 +105,6 @@ dpInput.addEventListener("change", async (e) => {
 
       if (response.status) {
         populateProfile(userId);
-        populateImages();
       }
     } catch (err) {
       console.log("Error while profile update", err);
@@ -127,15 +125,12 @@ modalClickHandler(editProfileModal);
 
 // Check if the input has changed
 editProfileForm.addEventListener("input", (event) => {
-  console.log("data chnaged");
   editFormChanged = true; //Set data changed
 });
 
 editProfileForm
-  .querySelector(".deletebtn")
-  .addEventListener("click", async (event) => {
-    event.preventDefault();
-
+  .getElementsByClassName("deletebtn")[0]
+  .addEventListener("click", async () => {
     const urlencoded = new URLSearchParams();
     urlencoded.append("username", editProfileUsername.value);
     urlencoded.append("email", editProfileEmail.value);
@@ -150,11 +145,10 @@ editProfileForm
       redirect: "follow",
     };
 
-    // Only if input value is changed
+    // Only change in input value is detected the following will execute to update the database as users change
     if (editFormChanged) {
       try {
         const result = await myCustomFetch(`./user/${userId}`, requestOptions);
-        console.log("Result from server:-", result);
 
         if (result.errors) {
           result.errors.forEach((err) => {
@@ -190,3 +184,29 @@ editProfileForm
         });
     }
   });
+
+// Logout modal event listners
+const logoutModal = document.querySelector("#id01");
+modalClickHandler(logoutModal);
+
+//on click of logot button the modal of logout is presented
+document.getElementById("profile-logout-btn").addEventListener("click", () => {
+  console.log("Profile logout clicked");
+  showContent(logoutModal);
+});
+
+//if OK is clicked, the page wil be redirected to login page where user can login and come back to this page
+logoutModal.querySelector(".deletebtn").addEventListener("click", () => {
+  sessionStorage.clear();
+  hideContent(logoutModal); 
+});
+
+//once everything is setup on profile page we populate the users posts under mypost div
+const populatePosts = async () => {
+  const posts = await myCustomFetch(`./image/images/${userId}`);
+  createPostCards(posts, ".myposts");
+};
+
+populatePosts();
+
+export { populatePosts };

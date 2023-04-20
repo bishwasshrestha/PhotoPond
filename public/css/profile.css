@@ -17,6 +17,7 @@ body {
 main {
   font-family: "Open Sans", Arial, sans-serif;
   width: 100%;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,12 +28,52 @@ img {
   display: block;
 }
 
-.container {
-  margin-top: 40px;
-  border: 1px solid black;
-  max-width: 63.5rem;
-  margin: 50 5rem;
+/* ------------------Display box---------- */
+.display-box {
+  width: 100%;
+  height: 100%;
+  padding: 50px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.display-box img {
+  border: 3px solid;
+  width: 70%;
+
+  border-color: #2195f3a4;
+  border-radius: 10px;
+}
+
+.show-image {
+  margin: auto;
+}
+
+/* ---------------------Profile Section */
+.container .profile {
+  margin-top: 50px;
+  margin-bottom: 0;
+  max-width: 43.5rem;
+  max-height: fit-content;
   padding: 0 2rem;
+}
+
+.container .myposts {
+  border-top: 2px solid rgba(0, 0, 0, 0.411);
+  padding: 20px;
+  width: 100%;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  gap: 50px 50px;
+}
+
+.profile-search-container {
+  visibility: hidden;
 }
 
 .btn {
@@ -59,28 +100,19 @@ img {
 
 /* Profile Section */
 
-.profile {
-  padding: 5rem 0;
-}
-
 .profile::after {
   content: "";
   display: block;
   clear: both;
 }
-#profile-picture {
-  max-height: 150px;
-  max-width: 150px;
-  margin: 0;
-  padding: 0;
-}
+
 .profile-image {
   float: left;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 150px;
-  width: 150px; 
+  height: 100px;
+  width: 100px;
   border-radius: 50%;
   background-color: #03030327;
   background-size: cover;
@@ -91,7 +123,7 @@ img {
 
 .profile-image:hover {
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10000;
+  z-index: 1;
   color: rgba(250, 250, 250, 1);
   transition: all 0.3s ease;
 }
@@ -102,12 +134,6 @@ img {
 
 .btn-change-image:hover {
   display: inline;
-}
-
-.profile-image span {
-  display: inline-flex;
-  text-decoration: none;
-  padding: 0.2em;
 }
 
 .profile-user-settings,
@@ -128,14 +154,13 @@ img {
 
 .profile-user-name {
   display: inline-block;
-  font-size: 3.2rem;
-  font-weight: 300;
+  font-size: 2.5rem;
 }
 
 .profile-edit-btn {
   font-size: 1.4rem;
   line-height: 1.8;
-  border: 0.1rem solid #dbdbdb;
+  border: 1px solid rgba(0, 0, 0, 0.178);
   border-radius: 0.3rem;
   padding: 0 2.4rem;
   margin-left: 2rem;
@@ -147,7 +172,7 @@ img {
 }
 
 .profile-stats {
-  margin-top: 2.3rem;
+  margin-top: 1.3rem;
 }
 
 .profile-stats li {
@@ -155,7 +180,6 @@ img {
   font-size: 1.6rem;
   line-height: 1.5;
   margin-right: 4rem;
-  cursor: pointer;
 }
 .profile-stats li span {
   display: flex;
@@ -169,8 +193,7 @@ img {
 .profile-bio {
   font-size: 1.6rem;
   font-weight: 400;
-  line-height: 1.5;
-  margin-top: 2.3rem;
+  line-height: 1;
 }
 
 .profile-real-name,
@@ -178,266 +201,9 @@ img {
 .profile-edit-btn {
   font-weight: 600;
 }
-.profile-bio-only {
+/* .profile-bio-only {
   display: flex;
-}
-
-.modal-content span {
-  float: left;
-  color: #2e2727;
-  font-size: 12px;
-  font-weight: bold;
-}
-/*add full-width input fields*/
-.modal-content input,
-.modal-content textarea {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 2px solid #ccc;
-  box-sizing: border-box;
-}
-
-/* Set a style for all buttons */
-.modal button {
-  position: relative;
-  background-color: #4caf50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-}
-
-.modal button:hover {
-  opacity: 1;
-}
-
-/* Float cancel and delete buttons and add an equal width */
-.clearfix .cancelbtn,
-.clearfix .deletebtn {
-  float: left;
-  width: 50%;
-}
-
-/* Add a color to the cancel button */
-.clearfix .cancelbtn {
-  padding: 14px 20px;
-  background-color: #ccc;
-  color: black;
-}
-
-/* Add a color to the delete button */
-.clearfix .deletebtn {
-  background-color: #f44336;
-}
-
-/* Add padding and center-align text to the container */
-.modal .container {
-  padding: 16px;
-  text-align: center;
-}
-
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-  padding-top: 50px;
-}
-
-/* Modal Content/Box */
-.modal .modal-content {
-  background-color: #fefefe;
-  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-  border: 1px solid #888;
-  color: #1a1d1a;
-  width: 30%; /* Could be more or less, depending on screen size */
-}
-
-#edit-profile-modal .modal-content {
-  width: 40%; /* Could be more or less, depending on screen size */
-}
-
-/* Style the horizontal ruler */
-.modal hr {
-  border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
-}
-
-/* The Modal Close Button (x) */
-.close {
-  position: absolute;
-  right: 35px;
-  top: 50px;
-  color: #2e2727;
-  font-size: 40px;
-  font-weight: bold;
-}
-
-/*define the close hover and focus effects*/
-.close:hover,
-.close:focus {
-  color: #f44336;
-  cursor: pointer;
-}
-
-/* Clear floats */
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-/* Gallery Section */
-.chip {
-  display: inline-block;
-  padding: 0 25px;
-  margin: 2px;
-  height: 50px;
-  width: 100%;
-  font-size: 16px;
-  line-height: 50px;
-  color: #030303;
-  background-color: #f1eded;
-  box-shadow: 0 4px 8px 0 rgba(100, 86, 86, 0.2);
-}
-
-.chip img {
-  float: left;
-  margin: 0 10px 0 -25px;
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-  box-shadow: 0 4px 8px 0 rgba(104, 99, 99, 0.2);
-}
-
-.chip i {
-  float: right;
-  padding: 1.5rem;
-  display: none;
-}
-
-.gallery {
-  display: inline-block;
-  max-width: 73.5rem;
-  padding: 0 2rem;
-  margin: -3rem -3rem;
-  padding-bottom: 3rem;
-  margin-top: 2rem;
-}
-
-.gallery-item {
-  position: relative;
-  flex: 1 0 22rem;
-  margin: 5rem;
-  color: #fff;
-  cursor: pointer;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-}
-
-.gallery-item-info {
-  width: 100%;
-  height: 100%;
-  color: rgba(0, 0, 0, 0.3);
-}
-
-.gallery-item-info ul {
-  padding-left: 1rem;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-}
-
-.gallery-item-info li {
-  display: inline-block;
-  font-size: 1.7rem;
-  font-weight: 600;
-  margin: 1rem;
-}
-
-.gallery-item-info .m-0 {
-  float: right;
-  font-size: 1.2rem;
-  font-weight: 300;
-  margin: 1rem;
-}
-
-.fa-clone,
-.fa-comment {
-  transform: rotateY(180deg);
-}
-
-.gallery-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.comment-section {
-  display: none;
-}
-
-.comment-form {
-  display: flex;
-  align-items: center;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-}
-.comment-form textarea {
-  height: 32px;
-  width: 100%;
-}
-.comment-form button {
-  height: 32px;
-}
-#posted-comments {
-  position: relative;
-  margin: 20px auto;
-}
-.comment-heading {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-}
-.comment-info {
-  color: rgba(0, 0, 0, 0.5);
-  margin-left: 10px;
-  font-size: 14px;
-}
-.m-0 {
-  margin: 0;
-  font-size: 10px;
-}
-.comment-author {
-  color: rgba(0, 0, 0, 0.85);
-  font-weight: bold;
-  text-decoration: none;
-}
-.comment-author:hover {
-  text-decoration: underline;
-}
-
-.comment-body p {
-  padding: 0 5px;
-  color: #030303;
-  padding-left: 20px;
-  font-size: 16px !important;
-}
-
-.error {
-  color: #ba3939;
-  font-size: 14px !important;
-}
+} */
 
 /* Loader */
 
@@ -454,104 +220,58 @@ img {
 /* Media Query */
 
 /* Change styles for cancel button and delete button on extra small screens */
-@media screen and (max-width: 300px) {
+@media screen and (max-width: 400px) {
+  body {
+    display: block;
+    width: 100%;
+    margin: 0;
+    margin: 0px;
+  }
   .cancelbtn,
   .deletebtn {
     width: 100%;
   }
 }
 
-@media screen and (max-width: 80rem) {
+@media screen and (max-width: 400px) {
+  .logo {
+    visibility: visible !important;
+  }
+  .upload-form label {
+    margin-left: -150px;
+    width: 100px;
+  }
+  .logout_section {
+    margin-right: 10px;
+  }
   .container {
     position: relative !important;
-  }
-
-  .profile {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 4rem 0;
-  }
-
-  .profile::after {
-    display: none;
-  }
-
-  .profile-image,
-  .profile-user-settings,
-  .profile-bio,
-  .profile-stats {
-    float: none;
-    width: 150ox;
-  }
-
-  .profile-image img {
-    width: 7.7rem;
-  }
-
-  .profile-user-settings {
-    flex-basis: calc(40% - 10.7rem);
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    margin-top: 1rem;
-  }
-
-  .profile-user-name {
-    font-size: 2.2rem;
-  }
-
-  .profile-edit-btn {
-    order: 1;
-    padding: 0;
-    text-align: center;
-    margin-top: 1rem;
-  }
-
-  .profile-edit-btn {
-    margin-left: 0;
-  }
-
-  .profile-bio {
-    font-size: 1.4rem;
-    margin-top: 1.5rem;
-  }
-
-  .profile-edit-btn,
-  .profile-bio,
-  .profile-stats {
-    flex-basis: 100%;
-  }
-
-  .profile-stats {
-    order: 1;
-    margin-top: 1.5rem;
-  }
-
-  .profile-stats ul {
-    display: flex;
-    text-align: center;
-    padding: 1.2rem 0;
-    border-top: 0.1rem solid #dadada;
-    border-bottom: 0.1rem solid #dadada;
-  }
-
-  .profile-stats li {
-    font-size: 1.4rem;
-    flex: 1;
     margin: 0;
   }
 
-  .profile-stat-count {
-    display: block;
+  .header .profile-search-container {
+    visibility: hidden !important;
+  }
+
+  .container {
+    width: 100%;
+    margin: 5px;
+  }
+  .container .myposts {
+    display: flex;
+    flex-direction: column;
+  }
+  .profile-stats {
+    width: fit-content;
+    margin: 0;
+  }
+  .profile-bio {
+    margin-top: 0;
+    margin-right: 0;
+    padding: 10px;
+    width: 30vh;
   }
 }
-
-@media screen and (max-width: 40rem) {
-  body {
-    display: inline-block;
-  }
-}
-
 /* Spinner Animation */
 
 @keyframes loader {

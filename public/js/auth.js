@@ -61,10 +61,13 @@ const customFetch = async (endpoint, fd) => {
     redirect: "follow",
   };
 
-  const result = await fetch(query + endpoint, requestOptions)
-  .then(response => response.json())
-  .catch(error=> console.log(error.errorMessage))  
-  return result;
+  try {
+    const response = await fetch(query + endpoint, requestOptions);
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    return err;
+  }
 };
 
 /**
@@ -109,25 +112,26 @@ const registerUser = async (formData) => {
     }
     if (response.token) {
       saveToken(response);
-      location.replace("./index.html");
+      location.replace('./index.html')
     }
   } catch (err) {
     console.log("Error catched", err);
   }
 };
 
-const loginUser = async (formData) => {
+const loginUser = async (formData) => {  
   try {
     const response = await customFetch("login", formData);
+
     if (response.token) {
       saveToken(response);
       location.replace("./index.html");
     } else {
       errorMessage.innerHTML = response.error;
-      console.log("Error occoured", response.error);
+      console.log("Error occoured:", response.error);
     }
   } catch (err) {
-    console.log("Error login", err.errorMessage);
+    console.log("Error login:", err.errorMessage);
   }
 };
 

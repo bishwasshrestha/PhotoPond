@@ -1,24 +1,33 @@
 "use strict";
 import { myCustomFetch, userId } from "./main.js";
 
-import { populateImages, createPostCards } from "./index.js";
+import { createPostCards } from "./index.js";
 
-const searchForm = document.getElementById("search-form");
+const searchBtn = document.querySelector(".searchBtn");
 const searchInput = document.querySelector("#search-form input");
 
-searchInput.addEventListener("keyup", async (event) => {
-  event.preventDefault();
-
+const handleSearch = async () => {
+  const user = searchInput.value;
   const requestOptions = {
     method: "GET",
     redirect: "follow",
   };
 
-  const query = searchInput.value;
-
-  const response = await myCustomFetch(`./user/?name=${query}`, requestOptions);
-
-  console.log("fetch result:-", response);
-
-  createPostCards(response);
+  //  const query = searchInput.value;
+  console.log("search input =", user);
+  try {
+    const response = await myCustomFetch(
+      `./user/?username=${user}`,
+      requestOptions
+    );         
+    
+    createPostCards(response, ".gallery")
+  } catch (err) {
+    console.log("search query failed!", err);
+  }
+};
+// console.log(searchBtn);
+searchBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  handleSearch();
 });

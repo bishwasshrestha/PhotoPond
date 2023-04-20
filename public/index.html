@@ -4,169 +4,62 @@
     <meta charset="UTF-8" />
     <title>PhotoPound</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    
-    <link rel="stylesheet" href="./css/profile.css" />
-  
-    <link rel="stylesheet" href="./css/index.css" />
 
-    <!-- <link
+    <link rel="stylesheet" href="./css/header.css" />
+
+    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./css/modal.css" />
+    <link rel="stylesheet" href="./css/search.css" />
+    <link rel="stylesheet" href="./css/gallery.css" />
+
+    
+    <link
       href="./modules/@fortawesome/fontawesome-free/css/all.min.css"
       rel="stylesheet"
-    /> -->
-
-    <link href="https://fonts.googleapis.com/css?family=Tangerine" rel="stylesheet" />
+    />
+    
+    <link
+      href="https://fonts.googleapis.com/css?family=Tangerine"
+      rel="stylesheet"
+    />
   </head>
   <body>
-  <!-- ===========================================header start============================================-->
-  <header>
-    <div class="header">
-      <span class="logo">PhotoPound</span>
+    <header>
+      <div class="header">
+        <span class="logo"><a href="index.html">PhotoPound</a></span>
 
-      <div class="search-container">
-        <form id="search-form">
-          <input type="text" placeholder="Search..." name="search" required />
-          <button type="button">
-            <i class="fa fa-search">
-              Search
-            </i></button>
-        </form>
-      </div>
-
-      <div class="signin">
-        <a id="SignInBtn" href="./login.html">
-          <span id="userIcon" class="fas fa-user" aria-hidden="true"></span>
-          <span>Sign In</span>
-        </a>
-      </div>
-
-      <!-- <upload image form> -->
-
-      <form class="upload-form" enctype="multipart/form-data">
-        <label id="fileLabel" for="fileInput">
-          <input
-            id="fileInput"
-            type="file"
-            name="image"
-            accept="image/*"          
-            required
-          />
-        Upload
-        </label>
-        <button type="submit">Post</button>
-      </form>
-    </div>
-  </header>
-  <!-- ===========================================header end ====================================================-->
-
-  <main>
-    <!-- ===========================================Start of profile ===========================================-->
-    <div class="container">
-      <div class="profile">
-        
-        <a id="profile-picture" aria-label="Change Profile Picture">
-          <div class="profile-image" >
-            <span class="btn-change-image">
-              <input  id="dpInput" type="file" accept="image/*" style="display:none;" />
-              <label id="label"  for="dpInput">
-                <i class="fas fa-camera"></i>
-                Change Image
-              </label>
-            </span>
-          </div>
-        </a>
-      
-        <div class="profile-user-settings">
-          <h1 class="profile-user-name">janedoe_</h1>
-
-          <button id="edit-profile" class="btn profile-edit-btn">Edit Profile</button>
-
-
-                <!-- Modal : Edit profile -->
-              <div id="edit-profile-modal" class="modal">
-                <!--Step 1:Adding HTML-->
-                <span class="close" title="Close Modal" >x</span>
-                <form id="editProfileForm" class="modal-content">
-                    <div class="container">
-                        <span><b>Username</b></span>
-                        <input id="editProfileUsername" type="text"  name="username" minlength="3" required>
-              
-                        <br></br>
-                        <span><b>Email</b></span>
-                        <input id="editProfileEmail" type="email" name="email" required>
-
-                        <br></br>
-                        <span><b>About</b></span>
-                        <textarea id="editProfileAbout" type="text" name="about" required="required"></textarea>
-
-
-                        <div class="clearfix">
-                            <button type="reset" class="cancelbtn">Cancel</button>
-                            <button type="button" class="deletebtn">Submit</button>
-                        </div>
-                    </div>
-                </form>
-
-              </div>
-                <!-- ===========================================Modal : Edit profile ===========================================-->
-
-
-              
-          <button
-            id="profile-logout-btn"
-            class="btn profile-settings-btn"
-            aria-label="profile settings"
-          >
-            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-          </button>
-
-          <!-- Start of logout dialog-->
-          <div id="id01" class="modal">
-            <span class="close" title="Close Modal">×</span>
-            <form class="modal-content">
-              <div class="container"> 
-                <h1>Logout</h1>
-                <p>Are you sure you want to Logout?</p>
-              
-                <div class="clearfix">
-                  <button class="cancelbtn">Cancel</button>
-                  <button class="deletebtn">Logout</button>
-                </div>
-              </div>
-            </form>
-          </div>
-          <!-- End of logout dialog-->
-
+        <div class="search-container">
+          <form id="search-form">
+            <input type="text" placeholder="Search..." name="search" required />
+            <button type="button" class="searchBtn">
+              <i class="fa fa-search"> Search </i>
+            </button>
+          </form>
         </div>
 
-        <div class="profile-stats">
-          <ul>
-            <li>Posts<span id="image" class="profile-stat-count"></span></li>
-            <li>Likes <span id="like" class="profile-stat-count"></span></li>
-            <li>Comments<span id="comment" class="profile-stat-count"></span></li>
-          </ul>
-        </div>
+        <div class="signin">
+          <a id="SignInBtn" href="./login.html">
+            <span id="userIcon" class="fas fa-user" aria-hidden="true"></span>
+            <span>Sign In</span>
+          </a>
+        </div> 
+        <div class="visitprofilePage">
+          <a href="profile.html"> 
+            <img class="profile-dp" src="https://img.icons8.com/ios-filled/50/null/guest-male--v1.png" alt="Person" width="40px" height="40px">
+          </a>
+         
+        </div>    
+    </header>
+    <main>
+      <!-- ===========================================start of container===========================================-->
 
-        <div class="profile-bio">
-          <p class="profile-real-name">About</p>
-          <p class="profile-bio-only">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit📷✈️🏕️
-          </p>
-        </div>
+      <div class="container">
+        <div class="gallery"></div>
       </div>
-      <!-- ===========================================End of profile=========================================== -->
-    </div>
-    <!-- ===========================================start of container===========================================-->
-
-    <div class="container">
-      <div class="gallery"></div>
-    </div>
-    <!--=========================================== End of container ===========================================-->
-  </main>
-
-   <script type="module" src="js/main.js"></script>
-  <script type="module" src="js/search.js"></script>
-  <script type="module" src="js/profile.js"></script>
-  <script type="module" src="js/index.js"></script> 
-</body>
-
+      <!--=========================================== End of container ===========================================-->
+    </main>
+    <script src="./js/index.js" type="module"></script>
+    <script src="./js/search.js" type="module"></script>
+   
+  </body>
 </html>

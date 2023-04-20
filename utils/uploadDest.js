@@ -16,7 +16,7 @@ const storage = (path) =>
       // `filename` determines what the file should be named inside the folder
       const ext = file.originalname.split(".").slice(-1);
       cb(null, `${file.fieldname}-${Date.now()}.${ext}`);
-    },
+    } 
   });
 
 const uploadDestPost = multer({ storage: storage("./public/uploads/") }); // Assign

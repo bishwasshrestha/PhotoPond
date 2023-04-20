@@ -42,21 +42,18 @@ const fetchProfileStatCount = async (userID, fetchRoute) => {
     const response = await fetch(
       `./${fetchRoute}/user/${userID}`,
       fetchOptions
-    );
-  } catch {
-    (error) => console.log(error.message);
-  }
-  const result = await response.json();
-  if (result) {
+    );  
+
+    const result = await response.json();
     document.querySelector(`.profile-stats #${fetchRoute}`).innerText =
       result.count;
-    //return result.count;
+  } catch {
+    (error) => console.log(error.message);
   }
 };
 
 const myCustomFetch = async (url, fetchOptions) => {
   // Serves Fetch API for fetching resources
-
   try {
     const response = await fetch(url, fetchOptions);
     const result = await response.json();

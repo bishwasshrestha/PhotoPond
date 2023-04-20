@@ -44,35 +44,20 @@ const validationRules = () => {
       .trim() //  Removes whitespace from both sides of a string.
       .escape(),
 
-    body("email", "Email is not valid")
+    body("email")
       .isEmail()
       .custom(async (value, { req }) => {
-        // Custom validator returns a promise
-        const userID = req.params.id;
-        const [userWithEmail] = await getUserWithEmail(value);
+        const userbyEmail = await getUserWithEmail(value);
+        console.log(req.route.methods.put);
 
-        if (userWithEmail) {
-          // only if email already exists
-          if (!userID) {
-            // if not signed in //when signning up first time
-            return Promise.reject("E-mail already in use");
-          } else {
-            // if signed in // when updating email
-            try {
-              const [currentUser] = await getUserWithId(userID); // If defined outside, userID not found and error occoured
-
-              if (currentUser.email == userWithEmail.email) {
-                // check if email is current user's
-                return Promise.resolve();
-              } else {
-                return Promise.reject("E-mail already in use");
-              }
-            } catch (err) {
-              Error.throw(err);
-            }
+        if (!req.route.methods.put) {
+          if (userbyEmail) {
+            return Promise.reject("email already in use, please change email.");
           }
+        }else{
+          return Promise.resolve('email updated!')
         }
-      })
+      })      
       .normalizeEmail(),
 
     body("password")

@@ -1,33 +1,18 @@
-'use strict';
+"use strict";
 
-import {
-  userId,
-  userToken,
-  fetchProfileStatCount,
-  myCustomFetch,
-  timeAgo,
-  updateTimeInterval,
-  modalClickHandler,
-  showContent,
-  hideContent,
-  slideToggle,
-} from './main.js';
+import * as main from "./main.js";
 
 //<! HTML for Post info--===============================================================================================-->
 
 const postData = `<div class="gallery-item-info">
     <ul>
 
-      <li class="gallery-item-likes">
-        <button id="like-button">Like</button>
-        <span class="visually-hidden">Likes:</span>
-        <i class="fas fa-heart" aria-hidden="true"></i> 
+      <li class="gallery-item-likes">        
+       <i class="fas fa-heart" aria-hidden="true"></i> 
         <span id="likes-count"></span>
       </li>
 
-      <li class="gallery-item-comments">
-        <button id="comment-button">Comment</button>
-        <span class="visually-hidden">Comments:</span>
+      <li class="gallery-item-comments">  
         <i class="fas fa-comment" aria-hidden="true"></i> 
         <span id="comments-count"></span>
       </li>
@@ -54,8 +39,8 @@ const postData = `<div class="gallery-item-info">
           <p>Are you sure you want to Delete?</p>
         
           <div class="clearfix">
-            <button class="cancelbtn">Cancel</button>
-            <button class="deletebtn">Delete</button>
+            <button class="cancelbtn" type="button">Cancel</button>
+            <button class="deletebtn" type="button">Delete</button>
           </div>
         </div>
       </form>
@@ -63,131 +48,140 @@ const postData = `<div class="gallery-item-info">
   </div>`;
 
 //Populate each cards
-const createPostCards = (posts) => {
-  document.querySelector('.gallery').innerHTML = '';
-     posts?.forEach((post, i) => {
-    document.querySelector('.gallery').insertAdjacentHTML(
-      'beforeend',
+const createPostCards = (posts, path) => {
+  document.querySelector(path).innerHTML = "";
+  posts.forEach((post, i) => {
+    document.querySelector(path).insertAdjacentHTML(
+      "beforeend",
       // Each gallery div is assigned with unique id with index number 'image-index-${i}'
-      `<div id="image-index-${i}" class="gallery-item" tabindex="0">
-        
+      `<div id="image-index-${i}" class="gallery-item" tabindex=0>
+       
+    <!-- Each postcard is populated with the posts owners dp and username-->
         <div class="chip">
-          <img class="dpPost" src="./profiles/${post.dp}"  alt="Person" width="96" height="96">
+          <img class="dpPost" src="./profiles/${post.dp}"  alt="Person" width="40px" height="50px">
           ${post.username}
           <i  id="trash" class="fa fa-trash" aria-hidden="true"></i>
         </div>
-
-
+       
+    <!-- the post-->
         <img src="./uploads/${post.imagename}" class="gallery-image" alt="" />
-        
+
+    <!-- Each post can be interacted with like, comment etc-->
         ${postData}
 
       </div>`
     );
 
-    const imageWithIndex = document.getElementById(`image-index-${i}`);
-    const galleryItemInfo = imageWithIndex.getElementsByClassName(
-      'gallery-item-info'
-    )[0];
-    const commentSection = imageWithIndex.getElementsByClassName(
-      'comment-section'
-    )[0];
+    const imageWithIndex = document.querySelector(`#image-index-${i}`);
+    const galleryItemInfo =
+      imageWithIndex.getElementsByClassName("gallery-item-info")[0];
+    const commentSection =
+      imageWithIndex.getElementsByClassName("comment-section")[0];
 
-    /*getElementById() is only available as a method of the global document object,
-     and not available as a method on all element objects in the DOM.*/
+    /*getElementById() is only available as a method of the global document object, and not available as a method on all element objects in the DOM.*/
 
-    const likeBtn = galleryItemInfo.querySelector('#like-button');
-    const commentBtn = galleryItemInfo.querySelector('#comment-button');
-    const postedComments = commentSection.querySelector('#posted-comments');
-    const commentInputField = commentSection.getElementsByTagName(
-      'textarea'
-    )[0];
+    const likeBtn = galleryItemInfo.querySelector(".fa-heart");
+    const commentBtn = galleryItemInfo.querySelector(".fa-comment");
+    const postedComments = commentSection.querySelector("#posted-comments");
+    const commentInputField =
+      commentSection.getElementsByTagName("textarea")[0];
 
-    const postUplodedTime = galleryItemInfo.getElementsByClassName('m-0')[0];
+    const postUplodedTime = galleryItemInfo.getElementsByClassName("m-0")[0];
 
     // Attach posted time for each post when loded first time
-    postUplodedTime.innerText = timeAgo(post.creation_date);
+    const date = new Date(post.creation_date);
+    postUplodedTime.innerText = main.timeAgo(date);
 
     // Update posted time for each post every timeinterval
-    updateTimeInterval(postUplodedTime, post.creation_date);
+    main.updateTimeInterval(postUplodedTime, post.creation_date);
 
     // Only owner of the post allowed to delete
-    if (userId == post.owner_id) {
-      showContent(imageWithIndex.querySelector(`.chip i`));
+    if (main.userId === post.owner_id) {
+      main.showContent(imageWithIndex.querySelector(`.chip i`));
     }
 
     // Populate Likes on each post
     // When like button is clicked
-    likeBtn.addEventListener('click', (e) => {
-      console.log('like btn clicked');
-      if (likeBtn.innerText == 'Like') {
-        fetchLikes('POST', 'add', post.image_id);
-        likeBtn.innerText = 'Liked';
-        likeBtn.style.backgroundColor = '#3675EA';
+    likeBtn.addEventListener("click", (e) => {
+      //check if logged in.
+      if (main.userToken) {
+        if (likeBtn.style.color != "red") {
+          fetchLikes("POST", "add", post.image_id);
+          likeBtn.style.color = "red";
+        } else {
+          fetchLikes("DELETE", "remove", post.image_id);
+          likeBtn.style.color = "#b1b5a4";
+        }
       } else {
-        fetchLikes('DELETE', 'remove', post.image_id);
-        likeBtn.innerText = 'Like';
-        likeBtn.style.backgroundColor = '';
+        alert("Please login!");
+        window.location.assign("./login.html");
       }
     });
 
     // Fetch likes of a post from backend for all users
     const getLikes = async (imageId) => {
       const likeCount = imageWithIndex.querySelector(`#likes-count`);
-      const like = await myCustomFetch(`./like/${imageId}`);
+      const like = await main.myCustomFetch(`./like/${imageId}`);
+
       if (like.likes_count) {
         likeCount.innerHTML = like.likes_count;
       } else {
-        likeCount.innerHTML = '';
+        likeCount.innerHTML = "";
       }
     };
 
     // Fetch likes from backend for specific user only (Logged in user)
     const fetchLikes = async (myMethod, route, imageId) => {
       var urlencoded = new URLSearchParams();
-      urlencoded.append('userId', userId);
-      urlencoded.append('imageId', imageId);
+      urlencoded.append("userId", main.userId);
+      urlencoded.append("imageId", imageId);
 
       const fetchOptions = {
         method: myMethod,
         headers: {
-          Authorization: 'Bearer ' + userToken,
+          Authorization: "Bearer " + main.userToken,
         },
         body: urlencoded,
-        redirect: 'follow',
+        redirect: "follow",
       };
-      const like = await myCustomFetch(`./like/${route}/`, fetchOptions);
+      const like = await main.myCustomFetch(`./like/${route}/`, fetchOptions);
 
       if (like.message) {
         getLikes(imageId);
-        fetchProfileStatCount(userId, 'like');
+        main.fetchProfileStatCount(main.userId, "like");
       }
       if (like.status) {
         const image = like.status.image_id;
-        likeBtn.innerText = 'Liked';
-        likeBtn.style.backgroundColor = '#3675EA';
+        likeBtn.style.color = "#b1b5a4";
       }
     };
 
     // Populate comments on each post
 
     //Slide down & up comment section
-    commentBtn.addEventListener('click', (e) => {
-      slideToggle(commentSection);
+    commentBtn.addEventListener("click", (e) => {
+      if (main.userToken) {
+        main.slideToggle(commentSection);
+      } else {
+        alert("Please log in!");
+        window.location.assign("./login.html");
+      }
     });
 
     const createComments = async (comments) => {
-      postedComments.innerHTML = '';
-      const comments_count = comments.filter(
+      postedComments.innerHTML = "";
+      const comments_count = comments?.filter(
         (comment) => comment.image_id == post.image_id
       ).length;
+
       comments.forEach((comment) => {
+        const timeStamp = new Date(comment.time_stamp);
         const listItem = `
         <div class="comment-heading">
             <div class="comment-info">
               <a href="#" class="comment-author">${comment.username}</a>
               <p id=${comment.comment_id} class="m-0">
-              ${timeAgo(comment.time_stamp)}
+              ${main.timeAgo(timeStamp)}
               </p>
           </div>
         </div>
@@ -195,37 +189,36 @@ const createPostCards = (posts) => {
           <div class="comment-body">
             <p> ${comment.content}</p>
           </div>`;
-        postedComments.insertAdjacentHTML('afterbegin', listItem);
+        postedComments.insertAdjacentHTML("afterbegin", listItem);
 
         // update time for each comment
         const comments = postedComments.querySelectorAll(`.m-0`);
         Array.from(comments).map((element) => {
           if (element.id == comment.comment_id) {
-            updateTimeInterval(element, comment.time_stamp);
+            main.updateTimeInterval(element, comment.time_stamp);
           }
         });
 
         // If more than one comment update comment element
         if (comments_count) {
-          imageWithIndex.querySelector(
-            `#comments-count`
-          ).innerText = comments_count;
+          imageWithIndex.querySelector(`#comments-count`).innerText =
+            comments_count;
         }
       });
     };
 
     // Fetch comments of a post from backend for all users
     const getComments = async (id) => {
-      const comments = await myCustomFetch(`./comment/${id}`);
+      const comments = await main.myCustomFetch(`./comment/${id}`);
       createComments(comments);
-      fetchProfileStatCount(userId, 'comment');
+      // fetchProfileStatCount(userId, "comment");
     };
 
     //Validate the comment input is not blank
-    commentInputField.addEventListener('keyup', (event) => {
+    commentInputField.addEventListener("keyup", (event) => {
       const inputVal = commentInputField.value;
 
-      if (inputVal != '') {
+      if (inputVal != "") {
         commentSection.querySelector(`button`).disabled = false;
       } else {
         commentSection.querySelector(`button`).disabled = true;
@@ -234,74 +227,90 @@ const createPostCards = (posts) => {
 
     // When comment is posted
     commentSection
-      .getElementsByTagName('form')[0]
-      .addEventListener('submit', async (event) => {
+      .getElementsByTagName("form")[0]
+      .addEventListener("submit", async (event) => {
         event.preventDefault();
 
         const urlencoded = new URLSearchParams();
-        urlencoded.append('content', commentInputField.value);
-        urlencoded.append('userId', userId);
-        urlencoded.append('imageId', post.image_id);
+        urlencoded.append("content", commentInputField.value);
+        urlencoded.append("userId", main.userId);
+        urlencoded.append("imageId", post.image_id);
 
         const requestOptions = {
-          method: 'POST',
+          method: "POST",
           headers: {
-            Authorization: 'Bearer ' + userToken,
+            Authorization: "Bearer " + main.userToken,
           },
           body: urlencoded,
-          redirect: 'follow',
+          redirect: "follow",
         };
-        const result = await myCustomFetch('./comment/', requestOptions);
+        const result = await main.myCustomFetch("./comment/", requestOptions);
         if (result.message) {
-          commentInputField.value = '';
+          commentInputField.value = "";
           commentSection.querySelector(`button`).disabled = true;
           getComments(post.image_id);
         }
       });
 
-    // When a image is clicked, open in a new window
+    // show image when a post is clicked
     const galleryItem = imageWithIndex.querySelector(`.gallery-image`);
-    galleryItem.addEventListener('click', () => {
+    const clickedImage = document.getElementById("show-image");
+    galleryItem.addEventListener("click", () => {
       //Get original image URL
       const imgUrl = `./uploads/${post.imagename}`;
-      //Open image in new tab
-      window.open(imgUrl, '_blank');
+
+      //Open clicked image
+      main.modalClickHandler(clickedImage);
+      clickedImage.style.display = "block";
+      clickedImage.querySelector("#image").src = imgUrl;
     });
 
     // When clicked on the trash icon
-    const deleteModal = imageWithIndex.querySelector('.modal');
+    const deleteModal = imageWithIndex.querySelector(".modal");
 
     imageWithIndex
       .querySelector(`#trash`)
-      .addEventListener('click', (event) => {
-        showContent(deleteModal); // delete picture modal
+      .addEventListener("click", (event) => {
+        if (!main.userToken) {
+          alert("Please log in!");
+          window.location.assign("./login.html");
+        } else {
+          main.showContent(deleteModal); // delete picture modal
+        }
       });
 
-    modalClickHandler(deleteModal);
+    main.modalClickHandler(deleteModal);
 
     // When trash icon is pressed, DELETE a post/image
+
     deleteModal
-      .getElementsByClassName('deletebtn')[0]
-      .addEventListener('click', async (event) => {
+      .querySelector(".deletebtn")
+      .addEventListener("click", async (event) => {
         event.preventDefault();
 
         const fetchOptions = {
-          method: 'DELETE',
+          method: "DELETE",
           headers: {
-            Authorization: 'Bearer ' + userToken,
+            Authorization: "Bearer " + main.userToken,
           },
         };
+        if (post.owner_id == main.userId) {
+          const deleteRes = await main.myCustomFetch(
+            `./image/${post.image_id}`,
+            fetchOptions
+          );
+          console.log("delete res:", deleteRes);
 
-        const deleteRes = await myCustomFetch(
-          `./image/${post.image_id}`,
-          fetchOptions
-        );
-        if (deleteRes.status) {
-          populateImages();
-          fetchProfileStatCount(userId, 'image');
-          fetchProfileStatCount(userId, 'like');
-          fetchProfileStatCount(userId, 'comment');
-          hideContent(deleteModal);
+          if (deleteRes.status) {
+            window.location.reload();
+            main.fetchProfileStatCount(main.userId, "image");
+            main.fetchProfileStatCount(main.userId, "like");
+            main.fetchProfileStatCount(main.userId, "comment");
+            main.hideContent(deleteModal);
+          }
+        } else {
+          main.hideContent(deleteModal);
+          alert("Permission denined!");
         }
       });
 
@@ -310,85 +319,43 @@ const createPostCards = (posts) => {
     getLikes(post.image_id); //Get all the likes
 
     // Like and Comment allowed only when logged in
-    if (!userId) {
+    if (!main.userId) {
       likeBtn.disabled = true;
       commentBtn.disabled = true;
     } else {
       likeBtn.disabled = false;
       commentBtn.disabled = false;
-      fetchLikes('POST', 'status', post.image_id); //Get the staus of like button
+      fetchLikes("POST", "status", post.image_id); //Get the staus of like button
     }
-    });
+  });
 };
 
-// Fetch all the posts and populate them
-const populateImages = async () => {
-  const images = await myCustomFetch('./image/');
-  createPostCards(images);
+//link to visit profile page if logged in.
+const visitProfile = async () => {
+  const user = await main.myCustomFetch(`./user/${main.userId}`);
+  const userDp = user.dp;
+
+  document.querySelector(".profile-dp").src = `./profiles/${userDp}`;
 };
 
-populateImages(); // call this when loaded
-
-// Eventlistner to reflect file name
-document.getElementById('fileInput').addEventListener('change', (e) => {
-  // Get the selected file
-  const [file] = e.target.files;
-  // Get the file name and size
-  const { name: fileName, size } = file;
-  // Convert size in bytes to kilo bytes
-  const fileSize = (size / 1000).toFixed(2);
-
-  document.getElementById('fileLabel').innerText = fileName;
+visitProfile();
+document.querySelector(".profile-dp")?.addEventListener("click", () => {
+  if(!main.userId) {
+    window.assign("login.html");
+  } 
 });
 
-// submit upload image
-document
-  .querySelector('.upload-form')
-  .addEventListener('submit', async (event) => {
-    event.preventDefault();
 
-    const fd = new FormData();
-    fd.append('image', document.getElementById('fileInput').files[0]);
-    fd.append('ownerId', userId);
+// Fetch all the posts and populate them
+const populateImages = async (fetchroute, path) => {
+  if (!main.userToken) {
+    main.showContent(document.querySelector(".signin"));
+  }
 
-    const fetchOptions = {
-      method: 'POST',
-      headers: {
-        Authorization: 'Bearer ' + userToken,
-      },
-      body: fd,
-    };
+  const images = await main.myCustomFetch(fetchroute);
+  createPostCards(images, path);
+};
 
-    console.log('fetchOptions', fetchOptions);
-
-    const result = await myCustomFetch('./images/', fetchOptions);
-
-    if (result.status) {
-      document.getElementById('fileLabel').innerText = 'Upload';
-      document.querySelector('.upload-form').reset();
-      populateImages();
-      fetchProfileStatCount(userId, 'image');
-    }
-  });
-
-// Logout modal event listners
-const logoutModal = document.getElementById('id01');
-
-document
-  .getElementById('profile-logout-btn')
-  .addEventListener('click', (event) => {
-    console.log('Profile logout clicked');
-    showContent(logoutModal);
-  });
-
-modalClickHandler(logoutModal);
-logoutModal
-  .getElementsByClassName('deletebtn')[0]
-  .addEventListener('click', (event) => {
-    event.preventDefault();
-    sessionStorage.clear();
-    location.reload();
-    hideContent(logoutModal);
-  });
+populateImages("./image", ".gallery"); // call this when loaded
 
 export { populateImages, createPostCards };
