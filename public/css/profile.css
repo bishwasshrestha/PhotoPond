@@ -201,9 +201,6 @@ img {
 .profile-edit-btn {
   font-weight: 600;
 }
-/* .profile-bio-only {
-  display: flex;
-} */
 
 /* Loader */
 
@@ -247,16 +244,14 @@ img {
   .container {
     position: relative !important;
     margin: 0;
+    width: 100%;
+    margin: 5px;
   }
 
   .header .profile-search-container {
     visibility: hidden !important;
   }
 
-  .container {
-    width: 100%;
-    margin: 5px;
-  }
   .container .myposts {
     display: flex;
     flex-direction: column;

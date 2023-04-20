@@ -26,7 +26,7 @@
 }
 
 .gallery-item {
-  position: relative;
+  width: 50vh; 
   padding: 0;
   flex: 1 0 22rem;
   align-items: center;
@@ -34,6 +34,7 @@
   /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   transition: 0.3s;
+  margin-bottom: 0;
 }
 
 .gallery-item-info {
@@ -70,8 +71,8 @@
 
 .gallery-image {
   margin: auto;
-  height: 40rem;
-  object-fit: contain;
+  height: 67vh;
+  width: 100%;
 }
 .comment-section {
   display: none;
