@@ -1,29 +1,33 @@
-# PhotoPond   
-    
-  <img src="https://github.com/bishwasshrestha/PhotoPond/blob/main/demo/photopond1.gif" height="540"/>
-  
-# Overview
-Full stack social media web app where one can upload and browse pictures from other users
+# PhotoPond     
 
-# App Feature
-  - login/register
-  - upload images with ease.  
-  - view posts from users
-  - search posts from users
-  - React on friend's posts.
-  - Add comments to the pictures.
-  - delete pictures from your gallery
-  - edit your profile 
-  - logout
-  
-# Built With 
-  - Express.js - Back end web applicaton framework for NodeJS.
-  - REST API - The server will transfer to the client a representation of the state of the requested resource
-  - Vanilla JS - JavaScript to create CRUD operations from the DOM (Create, Read, Update, Delete).
-  - Node MySQL 2 - MySQL client for Node.js which supports prepared statements, non-utf8 endcodings, binary log protocol, compression and ssl.
-  - Express-JWT - Middleware for validating JWTs for authentication
-  - JSON Web Token - For generating JWTs used by authentication
-  - Passport - For handling user authentication
+PhotoPond is a full-stack social media web application where users can upload and browse pictures, interact with posts, and manage their profiles.
+
+## Features
+
+- **User Authentication**: Login and register with secure password hashing and JWT-based authentication.
+- **Image Upload**: Upload images and view posts from other users.
+- **Search**: Search for posts by username.
+- **Reactions**: Like and comment on posts.
+- **Profile Management**: Edit profile details and upload profile pictures.
+- **Post Management**: Delete your own posts.
+- **Responsive Design**: Optimized for both desktop and mobile devices.
+
+## Built With
+
+- **Backend**:
+  - [Express.js](https://expressjs.com/) - Web application framework for Node.js.
+  - [MySQL](https://www.mysql.com/) - Relational database for storing user and post data.
+  - [Passport.js](http://www.passportjs.org/) - Authentication middleware.
+  - [JWT](https://jwt.io/) - JSON Web Tokens for secure authentication.
+  - [Multer](https://github.com/expressjs/multer) - Middleware for handling file uploads.
+  - [Helmet](https://helmetjs.github.io/) - Security middleware for HTTP headers.
+  - [dotenv](https://github.com/motdotla/dotenv) - Environment variable management.
+
+- **Frontend**:
+  - Vanilla JavaScript for dynamic interactions.
+  - HTML5 and CSS3 for responsive design.
+  - FontAwesome for icons.
+
 
 # Code Structure
 
@@ -54,41 +58,90 @@ Full stack social media web app where one can upload and browse pictures from ot
             └─── profile.html       #static page for profile page
             
 
+## Installation
 
-# Requirements
-For development and production, you will need Node.js and npm, installed in your environement. Additionally, setup MySQL database for databse storage.
+### Prerequisites
 
-  ## Node 
-  
-   - Node installation    
-      Go on official [Node.js](https://nodejs.org/) website and download the installer or use your linux distro specific package manager to download it. Also, be sure to have git                   available in your PATH.
-
-  - MySQL
-      MySQL installation        
-        [Install](https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/windows-install-archive.html)
+- [Node.js](https://nodejs.org/) and npm installed.
+- [MySQL](https://www.mysql.com/) database set up.
 
 # Getting Started
 
-  ## Clone
-    - git clone https://github.com/bishwasshrestha/PhotoPond.git    
-  
-  ## Setup Local Environment 
+1. Clone the repository:
+   
+   ```bash
+   git clone https://github.com/bishwasshrestha/PhotoPond.git
+   cd PhotoPond
+   ```
+   
+1. Install dependencies
+   ```bash
+    npm install
+   ```
+
+1. Setup the .env file with your enviroment variables
+   ```bash
+    PORT=3002
+    DB_HOST=localhost
+    DB_USER=root
+    DB_PASS=password
+    DB_NAME=db_photoPond
+    SALT_ROUNDS=10
+    NODE_ENV=production
+    secretOrKey=yoursecretkeyishere
+   ```
+
+1. Set up the database:
+    - Use the SQL scripts in table.txt to create the necessary tables.
     
-  Create an environment variable page (.env) with credentials to connect to the database.
-        
-        PORT = 3002
-        DB_HOST= localhost
-        DB_USER=  root
-        DB_PASS=  password
-        DB_NAME=  db_photoPond
-        SALT_ROUNDS= 10
-        NODE_ENV = production
-        secretOrKey = yoursecretkeyishere
+1. Start the server:
+   ```bash
+   npm run dev
+   ```
+1. Open the application in your browser
+   ```bash
+    http://localhost:3002
+   ```
+
+### API Endpoints
+
+Authentication
+
+    - POST /auth/login - Login a user.
+    - POST /auth/register - Register a new user.
+User
+
+    - GET /user/:id - Get user details by ID.
+    - POST /user/profile - Upload a profile picture.
+    - PUT /user/:id - Update user details.
+    
+Images
+
+    - GET /image/ - Get all images.
+    - POST /image/ - Upload a new image.
+    - DELETE /image/:id - Delete an image.
+    
+Comments
+
+    - GET /comment/:id - Get comments for an image.
+    - POST /comment/ - Add a comment.
+    
+Likes
+
+    - GET /like/:imageId - Get likes for an image.
+    - POST /like/add/ - Add a like.
+    - DELETE /like/remove/ - Remove a like.
+    
+License
+This project is licensed under the ISC License.
+Acknowledgments
+- FontAwesome for icons.
+- Express.js for backend framework.
+- MySQL for database management.
+
+  <img src="https://github.com/bishwasshrestha/PhotoPond/blob/main/demo/photopond1.gif" height="540"/>
   
-  Now run the following command 
-  
-      - npm install
-      - npm run dev
-      
-      
-    You will find you app running on localhost:3002/
+
+
+
+
